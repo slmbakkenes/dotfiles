@@ -1,0 +1,177 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# Renoir Clair-Obscur Dark Gold Theme for Yazi
+# Inspired by Renoir paintings with warm gold/amber/brown tones
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#D4A574" } # warm ochre
+
+# Hovered
+hovered         = { reversed = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#DEB887", bold = true, italic = true, underline = true } # burlywood
+find_position = { fg = "#C5A572", bg = "reset", bold = true, italic = true } # antique gold
+
+# Marker
+marker_copied   = { fg = "#DAA520", bg = "#DAA520" } # goldenrod (green equivalent)
+marker_cut      = { fg = "#CD853F", bg = "#CD853F" } # peru/terracotta (red equivalent)
+marker_marked   = { fg = "#D4A574", bg = "#D4A574" } # warm ochre
+marker_selected = { fg = "#DEB887", bg = "#DEB887" } # burlywood
+
+# Count
+count_copied   = { fg = "#1A1410", bg = "#DAA520" } # dark bg, goldenrod
+count_cut      = { fg = "#1A1410", bg = "#CD853F" } # dark bg, terracotta
+count_selected = { fg = "#1A1410", bg = "#DEB887" } # dark bg, burlywood
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#8B7355" } # warm taupe
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#1A1410", bg = "#C5A572", bold = true } # dark bg, antique gold
+inactive = { fg = "#C5A572", bg = "#3D2E1F" } # antique gold, dark amber
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+
+normal_main = { fg = "#1A1410", bg = "#C5A572", bold = true } # dark bg, antique gold
+normal_alt  = { fg = "#C5A572", bg = "#3D2E1F" } # antique gold, dark amber
+
+# Select mode
+select_main = { fg = "#1A1410", bg = "#D4A574", bold = true } # dark bg, warm ochre
+select_alt  = { fg = "#D4A574", bg = "#3D2E1F" } # warm ochre, dark amber
+
+# Unset mode
+unset_main = { fg = "#1A1410", bg = "#E6BE8A", bold = true } # dark bg, light ochre
+unset_alt  = { fg = "#E6BE8A", bg = "#3D2E1F" } # light ochre, dark amber
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+# Permissions
+perm_sep   = { fg = "#8B7355" } # warm taupe
+perm_type  = { fg = "#C5A572" } # antique gold
+perm_read  = { fg = "#DAA520" } # goldenrod
+perm_write = { fg = "#CD853F" } # terracotta
+perm_exec  = { fg = "#DAA520" } # goldenrod
+
+# Progress
+progress_label  = { fg = "#FAF0E6", bold = true } # linen/bright white
+progress_normal = { fg = "#C5A572", bg = "#4A3828" } # antique gold, lighter shadow
+progress_error  = { fg = "#CD853F", bg = "#4A3828" } # terracotta, lighter shadow
+
+# : }}}
+
+
+# : Pick {{{
+
+[pick]
+border   = { fg = "#C5A572" } # antique gold
+active   = { fg = "#E6BE8A", bold = true } # light ochre
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#C5A572" } # antique gold
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#C5A572" } # antique gold
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#C5A572" } # antique gold
+title   = {}
+hovered = { fg = "#E6BE8A", underline = true } # light ochre
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+mask            = { bg = "#3D2E1F" } # dark amber selection
+cand            = { fg = "#D4A574" } # warm ochre
+rest            = { fg = "#A0826D" } # rosy brown
+desc            = { fg = "#E6BE8A" } # light ochre
+separator       = "  "
+separator_style = { fg = "#8B7355" } # warm taupe
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on      = { fg = "#D4A574" } # warm ochre
+run     = { fg = "#E6BE8A" } # light ochre
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#3D2E1F", bg = "#E8D5B7" } # dark amber, warm parchment
+
+# : }}}
+
+
+# : Notify {{{
+
+[notify]
+title_info  = { fg = "#DAA520" } # goldenrod (info)
+title_warn  = { fg = "#DEB887" } # burlywood (warning)
+title_error = { fg = "#CD853F" } # terracotta (error)
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+	# Images
+	{ mime = "image/*", fg = "#D4A574" }, # warm ochre
+
+	# Media
+	{ mime = "{audio,video}/*", fg = "#DEB887" }, # burlywood
+
+	# Archives
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#E6BE8A" }, # light ochre
+
+	# Documents
+	{ mime = "application/{pdf,doc,rtf}", fg = "#DAA520" }, # goldenrod
+
+	# Fallback
+	{ name = "*", fg = "#E8D5B7" }, # warm parchment (foreground)
+	{ name = "*/", fg = "#C5A572" } # antique gold (directories)
+]
+
+# : }}}
