@@ -42,3 +42,5 @@ function y() {
 }
 
 export EDITOR=nvim
+
+export PATH=$PATH:/Users/slmbakkenes/.spicetify
