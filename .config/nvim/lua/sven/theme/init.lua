@@ -4,11 +4,11 @@
 local M = {}
 
 function M.setup()
-  local colors = require("renoir.theme.palette").colors
+  local colors = require("sven.theme.palette").colors
   local hl = vim.api.nvim_set_hl
 
   -- Load all highlight definitions
-  require("renoir.theme.highlights").setup(colors, hl)
+  require("sven.theme.highlights").setup(colors, hl)
 end
 
 return M

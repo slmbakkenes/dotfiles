@@ -1,2 +1,2 @@
-require("renoir.core")
-require("renoir.lazy")
+require("sven.core")
+require("sven.lazy")

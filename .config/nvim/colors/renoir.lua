@@ -14,4 +14,4 @@ vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.g.colors_name = "renoir"
 
-require("renoir.theme").setup()
+require("sven.theme").setup()

@@ -4,7 +4,7 @@ return {
   config = function()
     local lualine = require("lualine")
     local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-    local palette = require("renoir.theme.palette").colors
+    local palette = require("sven.theme.palette").colors
 
     local colors = {
       blue = palette.blue,
