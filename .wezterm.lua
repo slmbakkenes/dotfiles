@@ -64,7 +64,7 @@ config.colors = {
 
 -- Font settings
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
-config.font_size = 19
+config.font_size = 14
 
 -- Tab bar settings
 config.enable_tab_bar = true
