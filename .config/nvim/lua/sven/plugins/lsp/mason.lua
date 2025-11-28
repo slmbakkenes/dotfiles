@@ -41,6 +41,10 @@ return {
 				"eslint_d",
 				"csharpier", -- C# formatter
 				"netcoredbg", -- .NET debugger
+				"jdtls", -- Java LSP
+				"java-debug-adapter", -- Java debugger
+				"java-test", -- Java test runner
+				"google-java-format", -- Java formatter
 			},
 		},
 		dependencies = {

@@ -18,6 +18,7 @@ return {
         liquid = { "prettier" },
         lua = { "stylua" },
         cs = { "csharpier" },
+        java = { "google-java-format" },
       },
       format_on_save = {
         lsp_fallback = true,

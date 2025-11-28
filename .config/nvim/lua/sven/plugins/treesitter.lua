@@ -42,6 +42,7 @@ return {
         "c",
         "toml",
         "c_sharp",
+        "java",
       },
       incremental_selection = {
         enable = true,
