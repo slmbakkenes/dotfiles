@@ -13,6 +13,7 @@ return {
 				"prismals",
 				"eslint",
 				"angularls",
+				"omnisharp",
 			},
 		},
 		dependencies = {
@@ -38,6 +39,8 @@ return {
 				"prettier", -- prettier formatter
 				"stylua", -- lua formatter
 				"eslint_d",
+				"csharpier", -- C# formatter
+				"netcoredbg", -- .NET debugger
 			},
 		},
 		dependencies = {

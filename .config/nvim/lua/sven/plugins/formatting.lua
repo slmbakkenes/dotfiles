@@ -17,6 +17,7 @@ return {
         markdown = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
+        cs = { "csharpier" },
       },
       format_on_save = {
         lsp_fallback = true,
