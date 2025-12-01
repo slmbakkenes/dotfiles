@@ -19,6 +19,7 @@ return {
         lua = { "stylua" },
         cs = { "csharpier" },
         java = { "google-java-format" },
+        dart = { "dart_format" },
       },
       format_on_save = {
         lsp_fallback = true,

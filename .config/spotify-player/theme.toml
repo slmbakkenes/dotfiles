@@ -1,0 +1,37 @@
+[[themes]]
+name = "renoir"
+
+[themes.palette]
+background = "#1A1410"
+foreground = "#E8D5B7"
+black = "#2D2118"
+red = "#CD853F"
+green = "#DAA520"
+yellow = "#C5A572"
+blue = "#8B7355"
+magenta = "#6B4423"
+cyan = "#D4A574"
+white = "#E8D5B7"
+bright_black = "#4A3828"
+bright_red = "#CD853F"
+bright_green = "#DAA520"
+bright_yellow = "#DEB887"
+bright_blue = "#A0826D"
+bright_magenta = "#8B6914"
+bright_cyan = "#E6BE8A"
+bright_white = "#FAF0E6"
+
+[themes.component_style]
+block_title = { fg = "#C5A572", modifiers = ["Bold"] }
+border = { fg = "#8B7355" }
+playback_status = { fg = "#DAA520", modifiers = ["Bold"] }
+playback_track = { fg = "#E8D5B7", modifiers = ["Bold"] }
+playback_artists = { fg = "#D4A574" }
+playback_album = { fg = "#A0826D" }
+playback_metadata = { fg = "#8B7355" }
+playback_progress_bar = { fg = "#C5A572", bg = "#3D2E1F" }
+current_playing = { fg = "#C5A572", modifiers = ["Bold"] }
+page_desc = { fg = "#D4A574", modifiers = ["Bold"] }
+table_header = { fg = "#C5A572", modifiers = ["Bold"] }
+selection = { fg = "#E8D5B7", bg = "#3D2E1F", modifiers = ["Bold"] }
+like = { fg = "#CD853F" }

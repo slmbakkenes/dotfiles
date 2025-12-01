@@ -43,6 +43,7 @@ return {
         "toml",
         "c_sharp",
         "java",
+        "dart",
       },
       incremental_selection = {
         enable = true,
