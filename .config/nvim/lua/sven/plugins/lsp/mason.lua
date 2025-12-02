@@ -14,7 +14,6 @@ return {
 				"eslint",
 				"angularls",
 				"omnisharp",
-				"dartls",
 			},
 		},
 		dependencies = {

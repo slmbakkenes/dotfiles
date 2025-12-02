@@ -7,11 +7,11 @@ return {
     local palette = require("sven.theme.palette").colors
 
     local colors = {
-      blue = palette.blue,
-      green = palette.sage,
-      violet = palette.purple,
-      yellow = palette.warning,
-      red = palette.error,
+      gold = palette.bg_search,      -- #C5A572 antique gold (normal mode)
+      ochre = palette.gold,          -- #D4A574 warm ochre (insert mode)
+      sienna = palette.sienna,       -- #CD853F terracotta (visual mode)
+      yellow = palette.warning,      -- #D4A04A (command mode)
+      red = palette.error,           -- #D46A6A (replace mode)
       fg = palette.fg,
       bg = palette.bg_dark,
       inactive_bg = palette.bg_highlight,
@@ -20,17 +20,17 @@ return {
 
     local my_lualine_theme = {
       normal = {
-        a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
+        a = { bg = colors.gold, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
       insert = {
-        a = { bg = colors.green, fg = colors.bg, gui = "bold" },
+        a = { bg = colors.ochre, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
       visual = {
-        a = { bg = colors.violet, fg = colors.bg, gui = "bold" },
+        a = { bg = colors.sienna, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
