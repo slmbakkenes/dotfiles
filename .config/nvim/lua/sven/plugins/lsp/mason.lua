@@ -2,7 +2,6 @@ return {
 	{
 		"williamboman/mason-lspconfig.nvim",
 		opts = {
-			-- list of servers for mason to install
 			ensure_installed = {
 				"ts_ls",
 				"html",
@@ -13,13 +12,16 @@ return {
 				"prismals",
 				"eslint",
 				"angularls",
-				"omnisharp",
 			},
 		},
 		dependencies = {
 			{
 				"williamboman/mason.nvim",
 				opts = {
+					registries = {
+						"github:mason-org/mason-registry",
+						"github:Crashdummyy/mason-registry",
+					},
 					ui = {
 						icons = {
 							package_installed = "✓",
@@ -36,15 +38,16 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		opts = {
 			ensure_installed = {
-				"prettier", -- prettier formatter
-				"stylua", -- lua formatter
+				"prettier",
+				"stylua",
 				"eslint_d",
-				"csharpier", -- C# formatter
-				"netcoredbg", -- .NET debugger
-				"jdtls", -- Java LSP
-				"java-debug-adapter", -- Java debugger
-				"java-test", -- Java test runner
-				"google-java-format", -- Java formatter
+				"csharpier",
+				"netcoredbg",
+				"jdtls",
+				"java-debug-adapter",
+				"java-test",
+				"google-java-format",
+				"roslyn",
 			},
 		},
 		dependencies = {
