@@ -21,6 +21,7 @@ return {
       -- Custom mappings for folder navigation
       vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
       vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
+      vim.keymap.set("n", "I", api.tree.toggle_gitignore_filter, opts("Toggle Git Ignore"))
     end
 
     nvimtree.setup({
@@ -67,7 +68,7 @@ return {
         custom = { ".DS_Store" },
       },
       git = {
-        ignore = false,
+        ignore = true,
       },
     })
 
