@@ -55,6 +55,7 @@ return {
     lualine.setup({
       options = {
         theme = my_lualine_theme,
+        globalstatus = true,
       },
       sections = {
         lualine_x = {
@@ -63,10 +64,10 @@ return {
             cond = lazy_status.has_updates,
             color = { fg = palette.amber },
           },
-          { "encoding" },
           { "fileformat" },
           { "filetype" },
         },
+        lualine_y = {},
       },
     })
   end,
