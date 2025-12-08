@@ -64,10 +64,18 @@ return {
             cond = lazy_status.has_updates,
             color = { fg = palette.amber },
           },
-          { "fileformat" },
           { "filetype" },
         },
         lualine_y = {},
+        lualine_z = {
+          {
+            function()
+              local line = vim.fn.line(".")
+              local total = vim.fn.line("$")
+              return string.format("%d/%d", line, total)
+            end,
+          },
+        },
       },
     })
   end,

@@ -42,7 +42,6 @@ return {
         "c",
         "toml",
         "c_sharp",
-        "java",
         "dart",
       },
       incremental_selection = {
