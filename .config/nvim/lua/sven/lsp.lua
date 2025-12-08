@@ -57,6 +57,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
+	virtual_text = {
+		prefix = "●",
+		spacing = 4,
+	},
 	signs = {
 		text = {
 			[severity.ERROR] = "●",
