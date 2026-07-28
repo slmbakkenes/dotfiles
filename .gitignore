@@ -1,0 +1,6 @@
+# Machine-local overrides
+lua/sven/local.lua
+
+# Runtime state that nvim writes into the config dir
+spell/
+.netrwhist
