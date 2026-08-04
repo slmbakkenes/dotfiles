@@ -1,13 +1,9 @@
 return {
-	"seblyng/roslyn.nvim",
-	ft = "cs",
-	---@module 'roslyn.config'
-	---@type RoslynNvimConfig
-	opts = {
-		broad_search = true, -- search parent dirs for .sln files
-	},
-	config = function(_, opts)
-		require("roslyn").setup(opts)
+	src = "https://github.com/seblyng/roslyn.nvim",
+	setup = function()
+		require("roslyn").setup({
+			broad_search = true, -- search parent dirs for .sln files
+		})
 
 		-- LSP settings for roslyn. The server binary is a system install, not
 		-- mason: `dotnet tool install -g roslyn-language-server` (see README).

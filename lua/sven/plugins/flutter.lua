@@ -1,11 +1,6 @@
 return {
-	"akinsho/flutter-tools.nvim",
-	lazy = false,
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"mfussenegger/nvim-dap",
-	},
-	config = function()
+	src = "https://github.com/akinsho/flutter-tools.nvim",
+	setup = function()
 		require("flutter-tools").setup({
 			debugger = {
 				enabled = true,

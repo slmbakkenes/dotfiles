@@ -1,45 +1,47 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  branch = "main",
-  lazy = false,
-  build = ":TSUpdate",
-  dependencies = {
-    "windwp/nvim-ts-autotag",
-  },
-  config = function()
-    require("nvim-treesitter").install({
-      "angular",
-      "json",
-      "javascript",
-      "typescript",
-      "tsx",
-      "yaml",
-      "html",
-      "css",
-      "prisma",
-      "markdown",
-      "markdown_inline",
-      "bash",
-      "lua",
-      "vim",
-      "dockerfile",
-      "gitignore",
-      "query",
-      "vimdoc",
-      "c",
-      "toml",
-      "c_sharp",
-      "dart",
-      "java",
-      "scss",
-    })
+	{ src = "https://github.com/windwp/nvim-ts-autotag" },
+	{
+		src = "https://github.com/nvim-treesitter/nvim-treesitter",
+		version = "main",
+		build = function()
+			-- update installed parsers when the plugin updates
+			pcall(vim.cmd.TSUpdate)
+		end,
+		setup = function()
+			require("nvim-treesitter").install({
+				"angular",
+				"json",
+				"javascript",
+				"typescript",
+				"tsx",
+				"yaml",
+				"html",
+				"css",
+				"prisma",
+				"markdown",
+				"markdown_inline",
+				"bash",
+				"lua",
+				"vim",
+				"dockerfile",
+				"gitignore",
+				"query",
+				"vimdoc",
+				"c",
+				"toml",
+				"c_sharp",
+				"dart",
+				"java",
+				"scss",
+			})
 
-    vim.treesitter.language.register("angular", "htmlangular")
+			vim.treesitter.language.register("angular", "htmlangular")
 
-    vim.api.nvim_create_autocmd("FileType", {
-      callback = function()
-        pcall(vim.treesitter.start)
-      end,
-    })
-  end,
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					pcall(vim.treesitter.start)
+				end,
+			})
+		end,
+	},
 }

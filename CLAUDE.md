@@ -25,14 +25,19 @@ Every change must work on **both macOS and Arch**. Concretely:
 Entry point `init.lua` loads four things in order:
 
 1. `sven.core` — options and keymaps (`lua/sven/core/`)
-2. `sven.lazy` — bootstraps lazy.nvim, imports every spec under
-   `lua/sven/plugins/`
-3. `sven.lsp` — native LSP setup (must run after lazy so nvim-lspconfig and
+2. `sven.pack` — plugin management via the built-in |vim.pack| (nvim 0.12+):
+   collects specs from every file under `lua/sven/plugins/`, registers build
+   hooks on `PackChanged`, calls `vim.pack.add()`, then runs each spec's
+   `setup()` (highest `priority` first — colorscheme — then alphabetical)
+3. `sven.lsp` — native LSP setup (must run after pack so nvim-lspconfig and
    cmp-nvim-lsp are on the runtimepath)
 4. `sven.local` — optional, gitignored machine overrides
 
-Each file in `lua/sven/plugins/` is a self-contained lazy.nvim plugin spec
-returning a table.
+Each file in `lua/sven/plugins/` returns one spec table or a list of them:
+`{ src, name?, version?, build?, setup?, priority? }` (see the header comment
+in `lua/sven/pack.lua`). Everything loads eagerly — there is deliberately no
+lazy-loading framework; the one exception is nvim-java, whose heavyweight
+`setup()` is deferred to the first java FileType event inside its own spec.
 
 ## LSP (native, nvim 0.11+ — no mason)
 
@@ -68,7 +73,8 @@ server: install the binary, add its name to `vim.lsp.enable()` in
 
 ## Plugin lock file
 
-`lazy-lock.json` is tracked. After `:Lazy sync`, commit the diff.
+`nvim-pack-lock.json` (vim.pack lockfile) is tracked. After
+`:lua vim.pack.update()` + `:write`, commit the diff. `lazy-lock.json` is gone.
 
 ## Theme
 

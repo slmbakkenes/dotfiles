@@ -1,8 +1,8 @@
 -- Machine-local overrides. Copy to `local.lua` (gitignored) and edit.
 --
--- Loaded after lazy.nvim finishes, so plugins are available here. Use this for
--- anything tied to one machine or one employer: debug targets with absolute
--- paths, private LSP settings, work-only keymaps.
+-- Loaded last in init.lua, after vim.pack and LSP setup, so plugins are
+-- available here. Use this for anything tied to one machine or one employer:
+-- debug targets with absolute paths, private LSP settings, work-only keymaps.
 
 -- Example: a project-specific .NET debug target.
 --

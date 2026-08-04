@@ -1,11 +1,10 @@
 return {
-  "sindrets/diffview.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
-  keys = {
-    { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Open diffview" },
-    { "<leader>gD", "<cmd>DiffviewClose<cr>",         desc = "Close diffview" },
-    { "<leader>gl", "<cmd>DiffviewFileHistory %<cr>", desc = "File history" },
-    { "<leader>gL", "<cmd>DiffviewFileHistory<cr>",   desc = "Branch history" },
-  },
+	src = "https://github.com/sindrets/diffview.nvim",
+	setup = function()
+		local map = vim.keymap.set
+		map("n", "<leader>gd", "<cmd>DiffviewOpen<cr>",          { desc = "Open diffview" })
+		map("n", "<leader>gD", "<cmd>DiffviewClose<cr>",         { desc = "Close diffview" })
+		map("n", "<leader>gl", "<cmd>DiffviewFileHistory %<cr>", { desc = "File history" })
+		map("n", "<leader>gL", "<cmd>DiffviewFileHistory<cr>",   { desc = "Branch history" })
+	end,
 }

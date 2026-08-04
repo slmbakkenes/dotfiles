@@ -3,10 +3,11 @@
 -- and friends. No setup calls needed — servers are enabled in lua/sven/lsp.lua
 -- and overridden in after/lsp/.
 return {
-	"neovim/nvim-lspconfig",
-	lazy = false,
-	dependencies = {
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-		{ "folke/lazydev.nvim", ft = "lua", opts = {} },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{
+		src = "https://github.com/folke/lazydev.nvim",
+		setup = function()
+			require("lazydev").setup()
+		end,
 	},
 }

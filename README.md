@@ -9,10 +9,11 @@ git clone git@github.com:slmbakkenes/nvim.git ~/.config/nvim
 nvim
 ```
 
-lazy.nvim bootstraps itself on first launch and installs everything. LSP is
-native (nvim 0.11 `vim.lsp.enable`) — server binaries are **not** auto-installed;
-put them on `$PATH` per the table below. Treesitter parsers compile on demand,
-so a C compiler must be present.
+Plugins are managed by the built-in `vim.pack` (nvim 0.12+): first launch
+installs everything after a confirmation prompt. LSP is native
+(`vim.lsp.enable`) — server binaries are **not** auto-installed; put them on
+`$PATH` per the table below. Treesitter parsers compile on demand, so a C
+compiler must be present.
 
 Leader is `Space` — press it and wait for [which-key](https://github.com/folke/which-key.nvim)
 to list what's bound.
@@ -23,7 +24,7 @@ Base system:
 
 | Need                      | macOS                        | Arch                       |
 | ------------------------- | ---------------------------- | -------------------------- |
-| Neovim ≥ 0.11             | `brew install neovim`        | `pacman -S neovim`         |
+| Neovim ≥ 0.12             | `brew install neovim`        | `pacman -S neovim`         |
 | C compiler (treesitter)   | Xcode CLT                    | `pacman -S base-devel`     |
 | `ripgrep`, `fd`           | `brew install ripgrep fd`    | `pacman -S ripgrep fd`     |
 | Nerd Font                 | `font-iosevka-nerd-font`     | `ttf-iosevka-nerd`         |
@@ -63,12 +64,12 @@ Flutter SDK.
 ## Layout
 
 ```
-init.lua              entry point: core → lazy → lsp → local
+init.lua              entry point: core → pack → lsp → local
 lua/sven/core/        options + keymaps
-lua/sven/lazy.lua     lazy.nvim bootstrap, imports plugins/
+lua/sven/pack.lua     vim.pack harness: collects specs, build hooks, setups
 lua/sven/lsp.lua      native LSP: capabilities, vim.lsp.enable list,
                       LspAttach keymaps, diagnostics
-lua/sven/plugins/     one file per plugin spec (incl. lspconfig.lua, roslyn.lua)
+lua/sven/plugins/     one file per plugin: { src, version?, build?, setup? }
 after/lsp/            per-server overrides (win the runtimepath merge)
 after/ftplugin/       filetype settings (java, cs, kotlin)
 ```
@@ -88,4 +89,6 @@ kitty / tmux / starship / btop theming in
 
 ## Updating plugins
 
-`:Lazy sync`, then commit the resulting `lazy-lock.json`.
+`:lua vim.pack.update()` — review the confirmation buffer, `:write` to apply
+(or `:quit` to discard), then commit the resulting `nvim-pack-lock.json`.
+On a fresh machine the lockfile pins every plugin to the committed revision.

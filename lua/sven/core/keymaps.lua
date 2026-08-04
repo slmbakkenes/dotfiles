@@ -51,11 +51,12 @@ keymap.set("n", "<leader>uv", function()
 end, { desc = "Toggle virtual text" })
 
 keymap.set("n", "<leader>ui", function()
-  local ok, ibl = pcall(require, "ibl")
+  local ok, snacks = pcall(require, "snacks")
   if not ok then return end
-  local cfg = require("ibl.config").get_config(0)
-  ibl.update({ enabled = not cfg.enabled })
-  vim.notify("Indent guides: " .. ((not cfg.enabled) and "on" or "off"))
+  local on = vim.g.indent_guides_on ~= false
+  if on then snacks.indent.disable() else snacks.indent.enable() end
+  vim.g.indent_guides_on = not on
+  vim.notify("Indent guides: " .. (vim.g.indent_guides_on and "on" or "off"))
 end, { desc = "Toggle indent guides" })
 
 keymap.set("n", "<leader>uw", function()
