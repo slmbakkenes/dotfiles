@@ -9,33 +9,67 @@ git clone git@github.com:slmbakkenes/nvim.git ~/.config/nvim
 nvim
 ```
 
-lazy.nvim bootstraps itself on first launch and installs everything; LSP servers
-come from `mason.nvim` (C# roslyn is wired up separately). Treesitter parsers
-compile on demand, so a C compiler must be present.
+lazy.nvim bootstraps itself on first launch and installs everything. LSP is
+native (nvim 0.11 `vim.lsp.enable`) — server binaries are **not** auto-installed;
+put them on `$PATH` per the table below. Treesitter parsers compile on demand,
+so a C compiler must be present.
 
 Leader is `Space` — press it and wait for [which-key](https://github.com/folke/which-key.nvim)
 to list what's bound.
 
 ## Requirements
 
+Base system:
+
 | Need                      | macOS                        | Arch                       |
 | ------------------------- | ---------------------------- | -------------------------- |
-| Neovim ≥ 0.10             | `brew install neovim`        | `pacman -S neovim`         |
+| Neovim ≥ 0.11             | `brew install neovim`        | `pacman -S neovim`         |
 | C compiler (treesitter)   | Xcode CLT                    | `pacman -S base-devel`     |
 | `ripgrep`, `fd`           | `brew install ripgrep fd`    | `pacman -S ripgrep fd`     |
 | Nerd Font                 | `font-iosevka-nerd-font`     | `ttf-iosevka-nerd`         |
-| .NET debugging (optional) | bundled ARM64 netcoredbg     | `pacman -S netcoredbg`     |
+| [mise](https://mise.jdx.dev) | `brew install mise`       | `pacman -S mise`           |
+| .NET SDK                  | `brew install dotnet-sdk`    | `pacman -S dotnet-sdk`     |
+
+LSP servers and formatters are managed by mise (activate it in your shell rc:
+`eval "$(mise activate zsh)"`), one command on both OSes:
+
+```bash
+mise use -g node@lts \
+  aqua:LuaLS/lua-language-server \
+  aqua:JohnnyMorganz/StyLua \
+  npm:prettier \
+  npm:typescript \
+  npm:typescript-language-server \
+  npm:vscode-langservers-extracted \
+  "npm:@tailwindcss/language-server" \
+  "npm:@angular/language-server" \
+  dotnet:csharpier
+```
+
+This writes `~/.config/mise/config.toml` — commit that to dotfiles and it's
+`mise install` on the next machine.
+
+Two tools live outside mise:
+
+| Need                      | Install                                              |
+| ------------------------- | ---------------------------------------------------- |
+| C# LSP (roslyn)           | `dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json` (custom feed — mise's dotnet backend only supports one global registry URL) |
+| `google-java-format`      | `brew install google-java-format` / AUR (jar + wrapper, no mise backend fits) |
+| .NET debugging (optional) | bundled ARM64 netcoredbg on macOS; `pacman -S netcoredbg` on Arch |
+
+jdtls (Java) is installed automatically by nvim-java; dartls ships with the
+Flutter SDK.
 
 ## Layout
 
 ```
-init.lua              entry point
+init.lua              entry point: core → lazy → lsp → local
 lua/sven/core/        options + keymaps
-lua/sven/lazy.lua     lazy.nvim bootstrap, imports plugins/ and plugins/lsp/
-lua/sven/lsp.lua      shared on_attach + capabilities
-lua/sven/plugins/     one file per plugin spec
-lua/sven/plugins/lsp/ per-server setup, mason, roslyn
-after/lsp/            server overrides applied after startup
+lua/sven/lazy.lua     lazy.nvim bootstrap, imports plugins/
+lua/sven/lsp.lua      native LSP: capabilities, vim.lsp.enable list,
+                      LspAttach keymaps, diagnostics
+lua/sven/plugins/     one file per plugin spec (incl. lspconfig.lua, roslyn.lua)
+after/lsp/            per-server overrides (win the runtimepath merge)
 after/ftplugin/       filetype settings (java, cs, kotlin)
 ```
 

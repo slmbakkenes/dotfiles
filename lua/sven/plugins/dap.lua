@@ -1,5 +1,6 @@
 -- netcoredbg: on macOS/ARM the prebuilt binary comes from a plugin, since
--- upstream ships no Apple Silicon build. Elsewhere mason installs it.
+-- upstream ships no Apple Silicon build. Elsewhere it's a system package
+-- (`pacman -S netcoredbg` on Arch) found via exepath.
 local is_mac = vim.uv.os_uname().sysname == "Darwin"
 
 return {

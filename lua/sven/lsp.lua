@@ -1,4 +1,35 @@
+-- Native LSP setup (nvim 0.11+). Server definitions (cmd, filetypes,
+-- root_markers) come from nvim-lspconfig's lsp/ directory; overrides live in
+-- after/lsp/. Binaries are system-installed — see README "Requirements".
+
 local keymap = vim.keymap -- for conciseness
+
+---------------------
+-- Servers
+---------------------
+
+-- nvim-cmp advertises extra capabilities (snippets, etc.) on top of the
+-- built-in ones; apply them to every server via the '*' config.
+vim.lsp.config("*", {
+	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+
+vim.lsp.enable({
+	"ts_ls",
+	"html",
+	"cssls",
+	"tailwindcss",
+	"lua_ls",
+	"eslint",
+	"angularls",
+})
+-- Not listed here: dartls (managed by flutter-tools), jdtls (enabled in the
+-- nvim-java spec), roslyn (managed by roslyn.nvim).
+
+---------------------
+-- Keymaps
+---------------------
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
@@ -53,6 +84,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- vim.lsp.inlay_hint.enable(true)
+
+---------------------
+-- Diagnostics
+---------------------
 
 local severity = vim.diagnostic.severity
 

@@ -1,9 +1,6 @@
 return {
 	"seblyng/roslyn.nvim",
 	ft = "cs",
-	dependencies = {
-		"williamboman/mason.nvim",
-	},
 	---@module 'roslyn.config'
 	---@type RoslynNvimConfig
 	opts = {
@@ -12,8 +9,10 @@ return {
 	config = function(_, opts)
 		require("roslyn").setup(opts)
 
-		-- LSP settings for roslyn
+		-- LSP settings for roslyn. The server binary is a system install, not
+		-- mason: `dotnet tool install -g roslyn-language-server` (see README).
 		vim.lsp.config("roslyn", {
+			cmd = { "roslyn-language-server", "--stdio" },
 			settings = {
 				["csharp|inlay_hints"] = {
 					csharp_enable_inlay_hints_for_implicit_object_creation = true,

@@ -22,22 +22,41 @@ Every change must work on **both macOS and Arch**. Concretely:
 
 ## Architecture
 
-Entry point `init.lua` loads three things in order:
+Entry point `init.lua` loads four things in order:
 
 1. `sven.core` — options and keymaps (`lua/sven/core/`)
 2. `sven.lazy` — bootstraps lazy.nvim, imports every spec under
-   `lua/sven/plugins/` and `lua/sven/plugins/lsp/`
-3. `sven.local` — optional, gitignored machine overrides
+   `lua/sven/plugins/`
+3. `sven.lsp` — native LSP setup (must run after lazy so nvim-lspconfig and
+   cmp-nvim-lsp are on the runtimepath)
+4. `sven.local` — optional, gitignored machine overrides
 
 Each file in `lua/sven/plugins/` is a self-contained lazy.nvim plugin spec
-returning a table. LSP setup is split across:
+returning a table.
 
-- `lua/sven/lsp.lua` — shared `on_attach` and capabilities
-- `lua/sven/plugins/lsp/lsp.lua` — per-server configuration
-- `lua/sven/plugins/lsp/mason.lua` — auto-install via mason
-- `lua/sven/plugins/lsp/roslyn.lua` — C# via roslyn, outside mason
-- `after/lsp/` — server overrides loaded after startup
+## LSP (native, nvim 0.11+ — no mason)
+
+There is no mason and no per-server `setup()` framework. The flow:
+
+- `lua/sven/plugins/lspconfig.lua` — nvim-lspconfig as a *data-only* plugin:
+  it supplies `lsp/<server>.lua` definitions (cmd, filetypes, root_markers)
+  plus `:LspRestart`; nothing is called on it.
+- `lua/sven/lsp.lua` — the single LSP module: `vim.lsp.config("*")` with
+  cmp-nvim-lsp capabilities, the `vim.lsp.enable({...})` server list,
+  LspAttach keymaps, and diagnostic display.
+- `after/lsp/<server>.lua` — per-server overrides. `lsp/` files across the
+  runtimepath are deep-merged in rtp order (later wins), so `after/lsp/`
+  overrides nvim-lspconfig's defaults. NOTE: a `lsp/` dir at the config root
+  would be *earlier* in rtp than nvim-lspconfig and therefore lose — always
+  put overrides in `after/lsp/`.
+- Special cases enabled elsewhere: dartls (flutter-tools), jdtls (nvim-java
+  spec), roslyn (`lua/sven/plugins/roslyn.lua` via roslyn.nvim).
 - `after/ftplugin/` — filetype settings (java, cs, kotlin)
+
+Server and tool binaries are system-installed (brew / pacman / npm / dotnet
+tool) — the README "Requirements" table is the source of truth. When adding a
+server: install the binary, add its name to `vim.lsp.enable()` in
+`lua/sven/lsp.lua`, override in `after/lsp/` only if the defaults are wrong.
 
 ## Conventions
 
