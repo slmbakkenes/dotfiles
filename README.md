@@ -51,13 +51,14 @@ mise use -g node@lts \
 This writes `~/.config/mise/config.toml` — commit that to dotfiles and it's
 `mise install` on the next machine.
 
-Two tools live outside mise:
+A few tools live outside mise:
 
 | Need                      | Install                                              |
 | ------------------------- | ---------------------------------------------------- |
 | C# LSP (roslyn)           | `dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json` (custom feed — mise's dotnet backend only supports one global registry URL) |
 | `google-java-format`      | `brew install google-java-format` / AUR (jar + wrapper, no mise backend fits) |
 | .NET debugging (optional) | bundled ARM64 netcoredbg on macOS; `pacman -S netcoredbg` on Arch |
+| Rust (rust-analyzer, rustfmt, clippy) | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`, then `rustup component add rust-analyzer rustfmt clippy` (rustup, not mise: `after/lsp/rust_analyzer.lua` pins the `~/.cargo/bin` proxy so `rust-toolchain.toml` picks the version) |
 
 jdtls (Java) is installed automatically by nvim-java; dartls ships with the
 Flutter SDK.
@@ -72,7 +73,7 @@ lua/sven/lsp.lua      native LSP: capabilities, vim.lsp.enable list,
                       LspAttach keymaps, diagnostics
 lua/sven/plugins/     one file per plugin: { src, version?, build?, setup? }
 after/lsp/            per-server overrides (win the runtimepath merge)
-after/ftplugin/       filetype settings (java, cs, kotlin)
+after/ftplugin/       filetype settings (java, cs, kotlin, rust)
 ```
 
 ## Machine-local config
