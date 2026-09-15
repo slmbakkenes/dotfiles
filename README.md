@@ -42,6 +42,7 @@ mise use -g node@lts \
   npm:typescript \
   npm:typescript-language-server \
   npm:vscode-langservers-extracted \
+  npm:dockerfile-language-server-nodejs \
   "npm:@tailwindcss/language-server" \
   "npm:@angular/language-server" \
   dotnet:csharpier

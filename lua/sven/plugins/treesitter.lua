@@ -29,6 +29,7 @@ return {
 				"vimdoc",
 				"c",
 				"toml",
+				"rust",
 				"c_sharp",
 				"dart",
 				"java",

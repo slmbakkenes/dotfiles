@@ -19,6 +19,7 @@ return {
 				cs = { "csharpier" },
 				dart = { "dart_format" },
 				java = { "google-java-format" },
+				rust = { "rustfmt" },
 				scss = { "prettier" },
 				htmlangular = { "prettier" },
 			},

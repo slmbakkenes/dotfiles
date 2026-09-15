@@ -22,6 +22,8 @@ vim.lsp.enable({
 	"lua_ls",
 	"eslint",
 	"angularls",
+	"rust_analyzer",
+	"dockerls",
 })
 -- Not listed here: dartls (managed by flutter-tools), jdtls (enabled in the
 -- nvim-java spec), roslyn (managed by roslyn.nvim).
