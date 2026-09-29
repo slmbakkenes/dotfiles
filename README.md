@@ -48,7 +48,8 @@ mise use -g node@lts \
   dotnet:csharpier
 ```
 
-This writes `~/.config/mise/config.toml` — commit that to dotfiles and it's
+This writes `~/.config/mise/config.toml` — it's tracked in the `mise` package of
+[slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles), so it's
 `mise install` on the next machine.
 
 A few tools live outside mise:
