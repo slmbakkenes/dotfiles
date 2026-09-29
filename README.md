@@ -8,7 +8,6 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | Package    | Links                        |
 | ---------- | ---------------------------- |
 | `zsh`      | `~/.zshrc`, `~/.zprofile`, `~/.zshenv` |
-| `tmux`     | `~/.tmux.conf`               |
 | `starship` | `~/.config/starship.toml`    |
 | `kitty`    | `~/.config/kitty/`           |
 | `btop`     | `~/.config/btop/`            |
@@ -17,21 +16,20 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 ## Install
 
 ```bash
-brew install stow kitty tmux starship btop mise zoxide fzf yazi direnv \
+brew install stow kitty starship btop mise zoxide fzf yazi direnv \
   zsh-autosuggestions zsh-syntax-highlighting
 brew install --cask font-iosevka-nerd-font
 git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/projects/dotfiles
-cd ~/Development/projects/dotfiles && stow zsh tmux starship kitty btop mise
+cd ~/Development/projects/dotfiles && stow zsh starship kitty btop mise
 mise install
 ```
 
 Stow refuses to overwrite existing files — move any pre-existing config out
-of the way first. tmux plugins: install [tpm](https://github.com/tmux-plugins/tpm),
-then `prefix + I`.
+of the way first.
 
 ## Theme
 
-Gruvbox Dark everywhere (kitty, tmux, starship, btop, nvim):
+Gruvbox Dark everywhere (kitty, starship, btop, nvim):
 
 | Role    | Hex       |
 | ------- | --------- |
