@@ -1,7 +1,6 @@
 return {
 	src = "https://github.com/folke/which-key.nvim",
 	setup = function()
-		vim.o.timeout = true
 		vim.o.timeoutlen = 500
 
 		require("which-key").setup({
@@ -22,7 +21,6 @@ return {
 				{ "<leader>c",  group = "Code" },
 				{ "<leader>cr", group = "Run" },
 				{ "<leader>d",  group = "Debug" },
-				{ "<leader>e",  group = "Explorer" },
 				{ "<leader>f",  group = "Find" },
 				{ "<leader>g",  group = "Git" },
 				{ "<leader>gh", group = "Hunks" },

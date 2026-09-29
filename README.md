@@ -55,7 +55,7 @@ A few tools live outside mise:
 
 | Need                      | Install                                              |
 | ------------------------- | ---------------------------------------------------- |
-| C# LSP (roslyn)           | `dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json` (custom feed — mise's dotnet backend only supports one global registry URL) |
+| C# LSP (roslyn)           | `dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json` — a .NET global tool, lands in `~/.dotnet/tools` (must be on `PATH`). This is Microsoft's dev feed with builds several times a day; drop `--source` for the slower-moving nuget.org builds. `--prerelease` is needed either way: no stable version is published. Update: same command with `update` instead of `install`. Not in mise — its dotnet backend only supports one global registry URL |
 | `google-java-format`      | `brew install google-java-format` (no mise backend fits) |
 | .NET debugging (optional) | bundled — ARM64 netcoredbg comes from a plugin |
 | Rust (rust-analyzer, rustfmt, clippy) | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`, then `rustup component add rust-analyzer rustfmt clippy` (rustup, not mise: `after/lsp/rust_analyzer.lua` pins the `~/.cargo/bin` proxy so `rust-toolchain.toml` picks the version) |
@@ -73,7 +73,7 @@ lua/sven/lsp.lua      native LSP: capabilities, vim.lsp.enable list,
                       LspAttach keymaps, diagnostics
 lua/sven/plugins/     one file per plugin: { src, version?, build?, setup? }
 after/lsp/            per-server overrides (win the runtimepath merge)
-after/ftplugin/       filetype settings (java, cs, kotlin, rust)
+after/ftplugin/       filetype settings (java, cs, rust)
 ```
 
 ## Theme

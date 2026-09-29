@@ -50,7 +50,7 @@ There is no mason and no per-server `setup()` framework. The flow:
   put overrides in `after/lsp/`.
 - Special cases enabled elsewhere: dartls (flutter-tools), jdtls (nvim-java
   spec), roslyn (`lua/sven/plugins/roslyn.lua` via roslyn.nvim).
-- `after/ftplugin/` — filetype settings (java, cs, kotlin)
+- `after/ftplugin/` — filetype settings (java, cs, rust)
 
 Server and tool binaries are system-installed (brew / mise / rustup / dotnet
 tool) — the README "Requirements" table is the source of truth. When adding a

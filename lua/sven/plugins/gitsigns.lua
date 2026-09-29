@@ -18,8 +18,12 @@ return {
 				end
 
 				-- Navigation
-				map("n", "]h", gs.next_hunk, "Next hunk")
-				map("n", "[h", gs.prev_hunk, "Prev hunk")
+				map("n", "]h", function()
+					gs.nav_hunk("next")
+				end, "Next hunk")
+				map("n", "[h", function()
+					gs.nav_hunk("prev")
+				end, "Prev hunk")
 
 				-- Hunk actions (Git → Hunks subgroup)
 				map("n", "<leader>ghs", gs.stage_hunk, "Stage hunk")
@@ -33,7 +37,6 @@ return {
 
 				map("n", "<leader>ghS", gs.stage_buffer, "Stage buffer")
 				map("n", "<leader>ghR", gs.reset_buffer, "Reset buffer")
-				map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo stage hunk")
 				map("n", "<leader>ghp", gs.preview_hunk, "Preview hunk")
 				map("n", "<leader>ghd", gs.diffthis, "Diff this")
 				map("n", "<leader>ghD", function()

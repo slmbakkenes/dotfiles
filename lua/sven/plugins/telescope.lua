@@ -57,7 +57,6 @@ return {
 			keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", { desc = "Diagnostics" })
 
 			-- Buffer
-			keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { desc = "Switch buffer" })
 			keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>",           { desc = "Delete buffer" })
 			keymap.set("n", "<leader>bn", "<cmd>bnext<cr>",             { desc = "Next buffer" })
 			keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>",         { desc = "Previous buffer" })

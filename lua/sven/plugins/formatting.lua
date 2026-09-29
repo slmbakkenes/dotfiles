@@ -23,15 +23,15 @@ return {
 				scss = { "prettier" },
 				htmlangular = { "prettier" },
 			},
-			format_on_save = function(bufnr)
+			format_on_save = function()
 				if not vim.g.format_on_save then return end
-				return { lsp_fallback = true, timeout_ms = 1000 }
+				return { lsp_format = "fallback", timeout_ms = 1000 }
 			end,
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
 			conform.format({
-				lsp_fallback = true,
+				lsp_format = "fallback",
 				async = false,
 				timeout_ms = 1000,
 			})

@@ -71,21 +71,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		keymap.set("n", "[d", function()
 			vim.diagnostic.jump({ count = -1, float = true })
 		end, opts) -- jump to previous diagnostic in buffer
-		--
+
 		opts.desc = "Go to next diagnostic"
 		keymap.set("n", "]d", function()
 			vim.diagnostic.jump({ count = 1, float = true })
 		end, opts) -- jump to next diagnostic in buffer
 
-		opts.desc = "Show documentation for what is under cursor"
-		keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
 		opts.desc = "Restart LSP"
 		keymap.set("n", "<leader>cR", ":LspRestart<CR>", opts)
 	end,
 })
-
--- vim.lsp.inlay_hint.enable(true)
 
 ---------------------
 -- Diagnostics

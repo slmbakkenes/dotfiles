@@ -5,10 +5,9 @@ return {
 			broad_search = true, -- search parent dirs for .sln files
 		})
 
-		-- LSP settings for roslyn. The server binary is a system install, not
-		-- mason: `dotnet tool install -g roslyn-language-server` (see README).
+		-- LSP settings for roslyn. roslyn.nvim finds `roslyn-language-server` on
+		-- PATH (`dotnet tool install -g roslyn-language-server`, see README).
 		vim.lsp.config("roslyn", {
-			cmd = { "roslyn-language-server", "--stdio" },
 			settings = {
 				["csharp|inlay_hints"] = {
 					csharp_enable_inlay_hints_for_implicit_object_creation = true,

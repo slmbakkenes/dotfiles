@@ -51,10 +51,8 @@ keymap.set("n", "<leader>uv", function()
 end, { desc = "Toggle virtual text" })
 
 keymap.set("n", "<leader>ui", function()
-  local ok, snacks = pcall(require, "snacks")
-  if not ok then return end
   local on = vim.g.indent_guides_on ~= false
-  if on then snacks.indent.disable() else snacks.indent.enable() end
+  if on then Snacks.indent.disable() else Snacks.indent.enable() end
   vim.g.indent_guides_on = not on
   vim.notify("Indent guides: " .. (vim.g.indent_guides_on and "on" or "off"))
 end, { desc = "Toggle indent guides" })
