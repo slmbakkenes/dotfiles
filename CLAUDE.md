@@ -6,7 +6,7 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 
 Personal Neovim configuration, cloned directly to `~/.config/nvim` on two Apple
 Silicon Macs. Split out of [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles),
-which holds the zsh / tmux / starship / kitty / btop / mise packages.
+which holds the zsh / starship / kitty / btop / mise packages.
 
 ## Portability rule
 

@@ -81,7 +81,7 @@ after/ftplugin/       filetype settings (java, cs, rust)
 ## Theme
 
 Gruvbox Dark, medium contrast, via `ellisonleao/gruvbox.nvim`. Matches the
-kitty / tmux / starship / btop theming in
+kitty / starship / btop theming in
 [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles).
 
 ## Updating plugins
