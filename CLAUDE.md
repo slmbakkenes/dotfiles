@@ -4,25 +4,20 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 
 ## Overview
 
-Personal Neovim configuration, cloned directly to `~/.config/nvim` on both macOS
-and Arch Linux. Split out of [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles),
+Personal Neovim configuration, cloned directly to `~/.config/nvim` on two Apple
+Silicon Macs. Split out of [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles),
 which still holds the kitty / tmux / starship / btop packages.
 
 ## Portability rule
 
-Every change must work on **both macOS and Arch**. Concretely:
+macOS only, but it must work on both Macs:
 
-- No absolute `/Users/...` or `/opt/homebrew` paths.
-- Gate OS-specific behaviour on `vim.uv.os_uname().sysname == "Darwin"` rather
-  than assuming macOS — `lua/sven/plugins/dap.lua` is the reference example, and
-  it also gates the *plugin dependency*, not just the runtime path.
+- No absolute `/Users/...` paths — use `~`, `vim.fn.expand`, or `stdpath()`.
 - Prefer `vim.fn.exepath(...)` over hardcoded binary locations.
-- Anything machine-specific or employer-specific belongs in `lua/sven/local.lua`
-  (gitignored, `pcall`-required from `init.lua`), never in a tracked file.
 
 ## Architecture
 
-Entry point `init.lua` loads four things in order:
+Entry point `init.lua` loads three things in order:
 
 1. `sven.core` — options and keymaps (`lua/sven/core/`)
 2. `sven.pack` — plugin management via the built-in |vim.pack| (nvim 0.12+):
@@ -31,7 +26,6 @@ Entry point `init.lua` loads four things in order:
    `setup()` (highest `priority` first — colorscheme — then alphabetical)
 3. `sven.lsp` — native LSP setup (must run after pack so nvim-lspconfig and
    cmp-nvim-lsp are on the runtimepath)
-4. `sven.local` — optional, gitignored machine overrides
 
 Each file in `lua/sven/plugins/` returns one spec table or a list of them:
 `{ src, name?, version?, build?, setup?, priority? }` (see the header comment
@@ -58,7 +52,7 @@ There is no mason and no per-server `setup()` framework. The flow:
   spec), roslyn (`lua/sven/plugins/roslyn.lua` via roslyn.nvim).
 - `after/ftplugin/` — filetype settings (java, cs, kotlin)
 
-Server and tool binaries are system-installed (brew / pacman / npm / dotnet
+Server and tool binaries are system-installed (brew / mise / rustup / dotnet
 tool) — the README "Requirements" table is the source of truth. When adding a
 server: install the binary, add its name to `vim.lsp.enable()` in
 `lua/sven/lsp.lua`, override in `after/lsp/` only if the defaults are wrong.

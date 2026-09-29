@@ -1,6 +1,6 @@
 # nvim
 
-Personal Neovim configuration. Runs on macOS and Arch Linux.
+Personal Neovim configuration. Runs on macOS (Apple Silicon).
 
 ## Install
 
@@ -22,17 +22,17 @@ to list what's bound.
 
 Base system:
 
-| Need                      | macOS                        | Arch                       |
-| ------------------------- | ---------------------------- | -------------------------- |
-| Neovim ≥ 0.12             | `brew install neovim`        | `pacman -S neovim`         |
-| C compiler (treesitter)   | Xcode CLT                    | `pacman -S base-devel`     |
-| `ripgrep`, `fd`           | `brew install ripgrep fd`    | `pacman -S ripgrep fd`     |
-| Nerd Font                 | `font-iosevka-nerd-font`     | `ttf-iosevka-nerd`         |
-| [mise](https://mise.jdx.dev) | `brew install mise`       | `pacman -S mise`           |
-| .NET SDK                  | `brew install dotnet-sdk`    | `pacman -S dotnet-sdk`     |
+| Need                         | Install                     |
+| ---------------------------- | --------------------------- |
+| Neovim ≥ 0.12                | `brew install neovim`       |
+| C compiler (treesitter)      | Xcode CLT                   |
+| `ripgrep`, `fd`              | `brew install ripgrep fd`   |
+| Nerd Font                    | `font-iosevka-nerd-font`    |
+| [mise](https://mise.jdx.dev) | `brew install mise`         |
+| .NET SDK                     | `brew install dotnet-sdk`   |
 
 LSP servers and formatters are managed by mise (activate it in your shell rc:
-`eval "$(mise activate zsh)"`), one command on both OSes:
+`eval "$(mise activate zsh)"`):
 
 ```bash
 mise use -g node@lts \
@@ -56,8 +56,8 @@ A few tools live outside mise:
 | Need                      | Install                                              |
 | ------------------------- | ---------------------------------------------------- |
 | C# LSP (roslyn)           | `dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json` (custom feed — mise's dotnet backend only supports one global registry URL) |
-| `google-java-format`      | `brew install google-java-format` / AUR (jar + wrapper, no mise backend fits) |
-| .NET debugging (optional) | bundled ARM64 netcoredbg on macOS; `pacman -S netcoredbg` on Arch |
+| `google-java-format`      | `brew install google-java-format` (no mise backend fits) |
+| .NET debugging (optional) | bundled — ARM64 netcoredbg comes from a plugin |
 | Rust (rust-analyzer, rustfmt, clippy) | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh`, then `rustup component add rust-analyzer rustfmt clippy` (rustup, not mise: `after/lsp/rust_analyzer.lua` pins the `~/.cargo/bin` proxy so `rust-toolchain.toml` picks the version) |
 
 jdtls (Java) is installed automatically by nvim-java; dartls ships with the
@@ -75,13 +75,6 @@ lua/sven/plugins/     one file per plugin: { src, version?, build?, setup? }
 after/lsp/            per-server overrides (win the runtimepath merge)
 after/ftplugin/       filetype settings (java, cs, kotlin, rust)
 ```
-
-## Machine-local config
-
-Anything tied to one machine or one employer — debug targets with absolute
-paths, private LSP settings, work-only keymaps — goes in `lua/sven/local.lua`,
-which is gitignored. Copy `lua/sven/local.lua.example` to get started. It is
-`pcall`-required at the end of `init.lua`, so its absence is not an error.
 
 ## Theme
 
