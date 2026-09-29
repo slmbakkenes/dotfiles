@@ -1,0 +1,12 @@
+[tools]
+"aqua:LuaLS/lua-language-server" = "latest"
+node = "lts"
+"aqua:JohnnyMorganz/StyLua" = "latest"
+"npm:prettier" = "latest"
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+"npm:@angular/language-server" = "latest"
+"dotnet:csharpier" = "latest"
+"npm:dockerfile-language-server-nodejs" = "latest"
