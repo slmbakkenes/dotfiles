@@ -7,7 +7,12 @@ return {
 	{
 		src = "https://github.com/folke/lazydev.nvim",
 		setup = function()
-			require("lazydev").setup()
+			require("lazydev").setup({
+				library = {
+					-- type the `Snacks` global when a file uses it
+					{ path = "snacks.nvim", words = { "Snacks" } },
+				},
+			})
 		end,
 	},
 }

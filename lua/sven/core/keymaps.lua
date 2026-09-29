@@ -58,11 +58,11 @@ keymap.set("n", "<leader>ui", function()
 end, { desc = "Toggle indent guides" })
 
 keymap.set("n", "<leader>uw", function()
-  vim.opt.wrap = not vim.opt.wrap:get()
-  vim.notify("Wrap: " .. (vim.opt.wrap:get() and "on" or "off"))
+  vim.o.wrap = not vim.o.wrap
+  vim.notify("Wrap: " .. (vim.o.wrap and "on" or "off"))
 end, { desc = "Toggle line wrap" })
 
 keymap.set("n", "<leader>us", function()
-  vim.opt.spell = not vim.opt.spell:get()
-  vim.notify("Spell: " .. (vim.opt.spell:get() and "on" or "off"))
+  vim.o.spell = not vim.o.spell
+  vim.notify("Spell: " .. (vim.o.spell and "on" or "off"))
 end, { desc = "Toggle spell" })
