@@ -12,8 +12,8 @@ nvim
 Plugins are managed by the built-in `vim.pack` (nvim 0.12+): first launch
 installs everything after a confirmation prompt. LSP is native
 (`vim.lsp.enable`) — server binaries are **not** auto-installed; put them on
-`$PATH` per the table below. Treesitter parsers compile on demand, so a C
-compiler must be present.
+`$PATH` per the table below. Treesitter parsers compile on demand, so the
+tree-sitter CLI and a C compiler must be present.
 
 Leader is `Space` — press it and wait for [which-key](https://github.com/folke/which-key.nvim)
 to list what's bound.
@@ -26,6 +26,7 @@ Base system:
 | ---------------------------- | --------------------------- |
 | Neovim ≥ 0.12                | `brew install neovim`       |
 | C compiler (treesitter)      | Xcode CLT                   |
+| tree-sitter CLI (treesitter) | `brew install tree-sitter-cli` (not npm) |
 | `ripgrep`, `fd`              | `brew install ripgrep fd`   |
 | Nerd Font                    | `font-iosevka-nerd-font`    |
 | [mise](https://mise.jdx.dev) | `brew install mise`         |

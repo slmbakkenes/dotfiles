@@ -32,6 +32,7 @@ return {
 				"dart",
 				"java",
 				"scss",
+				"styled", -- css`` blocks in Lit / styled-components
 			})
 
 			vim.treesitter.language.register("angular", "htmlangular")
