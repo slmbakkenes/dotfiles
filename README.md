@@ -20,8 +20,8 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 brew install stow kitty tmux starship btop mise zoxide fzf yazi direnv \
   zsh-autosuggestions zsh-syntax-highlighting
 brew install --cask font-iosevka-nerd-font
-git clone https://github.com/slmbakkenes/dotfiles.git ~/dotfiles
-cd ~/dotfiles && stow zsh tmux starship kitty btop mise
+git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/projects/dotfiles
+cd ~/Development/projects/dotfiles && stow zsh tmux starship kitty btop mise
 mise install
 ```
 
