@@ -24,6 +24,8 @@ cd ~/Development/projects/dotfiles && stow zsh starship kitty btop mise
 mise install
 ```
 
+`.stowrc` sets the target to `$HOME`, so `stow` works from anywhere the repo is cloned.
+
 Stow refuses to overwrite existing files — move any pre-existing config out
 of the way first.
 
