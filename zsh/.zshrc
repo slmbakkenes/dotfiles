@@ -26,6 +26,13 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' squeeze-slashes true
 
+# Theme — Gruvbox dark/light, chosen per machine with `theme dark|light`.
+# Re-apply on a fresh machine (no symlinks yet) or after starship.toml changed.
+if [[ ! -e ~/.config/kitty/current-theme.conf || ~/.config/starship.toml -nt ~/.cache/starship.toml ]]; then
+  theme apply
+fi
+export STARSHIP_CONFIG="$HOME/.cache/starship.toml"
+
 # Tools
 command -v fzf >/dev/null && eval "$(fzf --zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"

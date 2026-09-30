@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Switch kitty, starship, btop and nvim between Gruvbox dark and light.
+#
+#   theme            print the current theme
+#   theme dark       switch to dark
+#   theme light      switch to light
+#   theme toggle     flip between them
+#   theme apply      re-apply the saved theme (recreates the symlinks)
+#
+# The choice lives in ~/.config/theme, per machine and outside git.
+set -euo pipefail
+
+state="$HOME/.config/theme"
+current() { [[ "$(cat "$state" 2>/dev/null)" == light ]] && echo light || echo dark; }
+
+case "${1:-}" in
+  "") current; exit 0 ;;
+  dark | light) t="$1" ;;
+  toggle) [[ "$(current)" == dark ]] && t=light || t=dark ;;
+  apply) t="$(current)" ;;
+  *) echo "usage: theme [dark|light|toggle|apply]" >&2; exit 1 ;;
+esac
+
+echo "$t" >"$state"
+
+# kitty: new windows read current-theme.conf; running ones are recoloured over the socket
+kitty_dir="$HOME/.config/kitty"
+ln -sf "gruvbox-$t.conf" "$kitty_dir/current-theme.conf"
+for sock in /tmp/kitty-*; do
+  [[ -S "$sock" ]] || continue
+  kitten @ --to "unix:$sock" set-colors --all --configured "$kitty_dir/current-theme.conf" 2>/dev/null || true
+done
+
+# starship: re-reads its config on every prompt, so open shells follow immediately
+mkdir -p "$HOME/.cache"
+sed "s/^palette = .*/palette = 'gruvbox_$t'/" "$HOME/.config/starship.toml" >"$HOME/.cache/starship.toml"
+
+# btop: color_theme = "current"; picked up the next time btop starts
+ln -sf "gruvbox-$t.theme" "$HOME/.config/btop/themes/current.theme"
+
+# nvim: each instance re-reads ~/.config/theme on SIGUSR1
+pkill -USR1 -x nvim 2>/dev/null || true
+
+[[ "${1:-}" == apply ]] || echo "theme: $t"
