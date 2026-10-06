@@ -13,15 +13,15 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `btop`     | `~/.config/btop/`            |
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
 | `bin`      | `~/.local/bin/theme`         |
+| `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
 
 ## Install
 
 ```bash
-brew install stow kitty starship btop mise zoxide fzf yazi direnv \
-  zsh-autosuggestions zsh-syntax-highlighting
-brew install --cask font-iosevka-nerd-font
 git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/projects/dotfiles
-cd ~/Development/projects/dotfiles && stow zsh starship kitty btop mise bin
+cd ~/Development/projects/dotfiles
+brew bundle --file=homebrew/.Brewfile
+stow zsh starship kitty btop mise bin homebrew
 mise install
 theme dark   # or: theme light
 ```
@@ -30,6 +30,18 @@ theme dark   # or: theme light
 
 Stow refuses to overwrite existing files — move any pre-existing config out
 of the way first.
+
+## Homebrew
+
+`~/.Brewfile` is the source of truth for what's installed. Language servers,
+formatters, node and other dev tools live in mise instead, not brew.
+
+```bash
+brew bundle check --global            # anything missing?
+brew bundle cleanup --global          # list installs not in the Brewfile
+brew bundle cleanup --global --force  # ...and uninstall them
+brew bundle dump --global --force     # save the current state after adding something
+```
 
 ## Theme
 
