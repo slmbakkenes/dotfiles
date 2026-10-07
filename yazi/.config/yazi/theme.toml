@@ -1,0 +1,8 @@
+#:schema https://yazi-rs.github.io/schemas/theme.json
+
+# Yazi asks kitty whether its background is dark or light and loads the
+# matching flavor, so it follows `theme dark|light` without its own symlink.
+# If an open yazi keeps the old colours after a switch, restart it.
+[flavor]
+dark  = "gruvbox-dark"
+light = "gruvbox-light"

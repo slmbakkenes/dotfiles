@@ -41,4 +41,6 @@ ln -sf "gruvbox-$t.theme" "$HOME/.config/btop/themes/current.theme"
 # nvim: each instance re-reads ~/.config/theme on SIGUSR1
 pkill -USR1 -x nvim 2>/dev/null || true
 
+# yazi: nothing to do, it picks its dark/light flavor from kitty's background
+
 [[ "${1:-}" == apply ]] || echo "theme: $t"

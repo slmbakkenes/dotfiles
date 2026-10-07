@@ -11,6 +11,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `starship` | `~/.config/starship.toml`    |
 | `kitty`    | `~/.config/kitty/`           |
 | `btop`     | `~/.config/btop/`            |
+| `yazi`     | `~/.config/yazi/` (Gruvbox dark/light flavors) |
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
 | `bin`      | `~/.local/bin/theme`         |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
@@ -21,7 +22,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/projects/dotfiles
 cd ~/Development/projects/dotfiles
 brew bundle --file=homebrew/.Brewfile
-stow zsh starship kitty btop mise bin homebrew
+stow zsh starship kitty btop yazi mise bin homebrew
 mise install
 theme dark   # or: theme light
 ```
@@ -45,7 +46,7 @@ brew bundle dump --global --force     # save the current state after adding some
 
 ## Theme
 
-Gruvbox everywhere (kitty, starship, btop, nvim), dark or light per machine:
+Gruvbox everywhere (kitty, starship, btop, yazi, nvim), dark or light per machine:
 
 ```bash
 theme          # print the current theme
@@ -57,8 +58,10 @@ points `kitty/.config/kitty/current-theme.conf` and
 `btop/.config/btop/themes/current.theme` at the dark or light file (both
 symlinks are gitignored), writes `~/.cache/starship.toml` with the matching
 palette, and signals nvim. Open kitty windows, shell prompts and nvim switch
-right away; btop picks it up on its next start. A new shell runs
-`theme apply` itself if the symlinks are missing.
+right away; btop picks it up on its next start. yazi needs no switch of its
+own: it asks kitty whether the background is dark or light and loads the
+`gruvbox-dark` or `gruvbox-light` flavor from `yazi/.config/yazi/flavors/`.
+A new shell runs `theme apply` itself if the symlinks are missing.
 
 Dark:
 

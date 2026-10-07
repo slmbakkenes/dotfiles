@@ -1,0 +1,152 @@
+# Gruvbox light for Yazi — mirrors kitty/.config/kitty/gruvbox-light.conf.
+# Picked automatically from the terminal background via [flavor] in theme.toml.
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#427b58" }
+
+# Find
+find_keyword  = { fg = "#b57614", bold = true, italic = true, underline = true }
+find_position = { fg = "#8f3f71", bg = "reset", bold = true, italic = true }
+
+# Symlink
+symlink_target = { fg = "#928374", italic = true }
+
+# Marker
+marker_copied   = { fg = "#79740e",  bg = "#79740e" }
+marker_cut      = { fg = "#9d0006",    bg = "#9d0006" }
+marker_marked   = { fg = "#427b58",   bg = "#427b58" }
+marker_selected = { fg = "#b57614", bg = "#b57614" }
+
+# Count
+count_copied   = { fg = "#fbf1c7", bg = "#79740e" }
+count_cut      = { fg = "#fbf1c7", bg = "#9d0006" }
+count_selected = { fg = "#fbf1c7", bg = "#b57614" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#bdae93" }
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#fbf1c7", bg = "#af3a03", bold = true }
+inactive = { fg = "#3c3836", bg = "#ebdbb2" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+normal_main = { fg = "#fbf1c7", bg = "#076678", bold = true }
+normal_alt  = { fg = "#076678", bg = "#ebdbb2" }
+
+select_main = { fg = "#fbf1c7", bg = "#af3a03", bold = true }
+select_alt  = { fg = "#af3a03", bg = "#ebdbb2" }
+
+unset_main = { fg = "#fbf1c7", bg = "#9d0006", bold = true }
+unset_alt  = { fg = "#9d0006", bg = "#ebdbb2" }
+
+# : }}}
+
+
+# : Indicator of hovered file {{{
+
+[indicator]
+parent  = { fg = "#3c3836", bg = "#d5c4a1" }
+current = { fg = "#fbf1c7", bg = "#af3a03" }
+preview = { underline = true }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+perm_sep   = { fg = "#928374" }
+perm_type  = { fg = "#79740e" }
+perm_read  = { fg = "#b57614" }
+perm_write = { fg = "#9d0006" }
+perm_exec  = { fg = "#427b58" }
+
+progress_label  = { fg = "#3c3836", bold = true }
+progress_normal = { fg = "#79740e", bg = "#ebdbb2" }
+progress_error  = { fg = "#9d0006", bg = "#ebdbb2" }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+border          = { fg = "#bdae93" }
+mask            = { bg = "#ebdbb2" }
+cand            = { fg = "#427b58" }
+rest            = { fg = "#928374" }
+desc            = { fg = "#8f3f71" }
+separator_style = { fg = "#928374" }
+
+# : }}}
+
+
+# : Popups {{{
+
+[confirm]
+border = { fg = "#076678" }
+title  = { fg = "#076678" }
+
+[spot]
+border   = { fg = "#076678" }
+title    = { fg = "#076678" }
+tbl_col  = { fg = "#076678" }
+tbl_cell = { fg = "#b57614", reversed = true }
+
+[notify]
+title_info  = { fg = "#79740e" }
+title_warn  = { fg = "#b57614" }
+title_error = { fg = "#9d0006" }
+
+[pick]
+border = { fg = "#076678" }
+active = { fg = "#8f3f71", bold = true }
+
+[input]
+border = { fg = "#076678" }
+
+[cmp]
+border = { fg = "#076678" }
+
+[tasks]
+border  = { fg = "#076678" }
+hovered = { fg = "#8f3f71", bold = true }
+
+[help]
+border  = { fg = "#076678" }
+chord   = { fg = "#427b58" }
+hovered = { fg = "#fbf1c7", bg = "#af3a03", bold = true }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#b57614" },
+	{ mime = "**/{audio,video}/*", fg = "#8f3f71" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#9d0006" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#427b58" },
+	{ mime = "vfs/{absent,stale}", fg = "#928374" },
+	{ url = "*", is = "orphan", bg = "#9d0006" },
+	{ url = "*", is = "exec", fg = "#79740e" },
+	{ url = "*", is = "dummy", bg = "#9d0006" },
+	{ url = "*/", is = "dummy", bg = "#9d0006" },
+	{ url = "*/", fg = "#076678", bold = true },
+]
+
+# : }}}
