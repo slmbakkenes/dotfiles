@@ -1,0 +1,3 @@
+# Runtime state that nvim writes into the config dir
+spell/
+.netrwhist
