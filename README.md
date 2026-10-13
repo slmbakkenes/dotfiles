@@ -1,7 +1,6 @@
 # dotfiles
 
 macOS (Apple Silicon) dotfiles, managed with [GNU Stow](https://www.gnu.org/software/stow/).
-The Neovim config lives in its own repo: [slmbakkenes/nvim](https://github.com/slmbakkenes/nvim).
 
 Each top-level folder is a stow package that mirrors `$HOME`:
 
@@ -9,6 +8,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | ---------- | ---------------------------- |
 | `zsh`      | `~/.zshrc`, `~/.zprofile`, `~/.zshenv` |
 | `starship` | `~/.config/starship.toml`    |
+| `nvim`     | `~/.config/nvim/` (see [its README](nvim/.config/nvim/README.md)) |
 | `kitty`    | `~/.config/kitty/`           |
 | `btop`     | `~/.config/btop/`            |
 | `yazi`     | `~/.config/yazi/` (Gruvbox dark/light flavors) |
@@ -22,7 +22,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/dotfiles
 cd ~/Development/dotfiles
 brew bundle --file=homebrew/.Brewfile
-stow zsh starship kitty btop yazi mise bin homebrew
+stow zsh starship nvim kitty btop yazi mise bin homebrew
 mise install
 theme dark   # or: theme light
 ```

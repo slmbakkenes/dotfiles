@@ -1,11 +1,13 @@
 # nvim
 
-Personal Neovim configuration. Runs on macOS (Apple Silicon).
+Personal Neovim configuration. Runs on macOS (Apple Silicon). Part of the
+[dotfiles](../../../README.md) as the `nvim` stow package.
 
 ## Install
 
 ```bash
-git clone git@github.com:slmbakkenes/nvim.git ~/.config/nvim
+cd ~/Development/dotfiles
+stow nvim   # links ~/.config/nvim
 nvim
 ```
 
