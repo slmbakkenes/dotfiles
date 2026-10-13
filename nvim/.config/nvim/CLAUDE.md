@@ -4,9 +4,9 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 
 ## Overview
 
-Personal Neovim configuration, cloned directly to `~/.config/nvim` on two Apple
-Silicon Macs. Split out of [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles),
-which holds the zsh / starship / kitty / btop / mise packages.
+Personal Neovim configuration on two Apple Silicon Macs. It is the `nvim` stow
+package of [slmbakkenes/dotfiles](https://github.com/slmbakkenes/dotfiles), next to
+the zsh / starship / kitty / btop / mise packages; `stow nvim` links it to `~/.config/nvim`.
 
 ## Portability rule
 
