@@ -1,0 +1,9 @@
+{
+  "name": "usage-panel",
+  "version": "0.1.0",
+  "description": "A pane with context, 5-hour and weekly usage, what is left, and when each limit resets.",
+  "author": {
+    "name": "Sven Bakkenes"
+  },
+  "types": "./types/index.d.ts"
+}

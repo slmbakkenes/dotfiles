@@ -1,0 +1,41 @@
+{
+  "name": "sven-mods",
+  "owner": {
+    "name": "Sven Bakkenes"
+  },
+  "metadata": {
+    "description": "Sven's own Claude Code mods."
+  },
+  "plugins": [
+    {
+      "name": "gruvbox",
+      "source": "./gruvbox",
+      "description": "Gruvbox dark and light for Claude Code: native themes plus a copy of the skins mod painted in Gruvbox."
+    },
+    {
+      "name": "agents-panel",
+      "source": "./agents-panel",
+      "description": "A pane with running and finished subagents: type, model, task and duration."
+    },
+    {
+      "name": "browser-pane",
+      "source": "./browser-pane",
+      "description": "Opens the Homebrew terminal-browser beside the chat."
+    },
+    {
+      "name": "replay-theater",
+      "source": "./replay-theater",
+      "description": "Step through the file edits Claude made in the last turn, one diff at a time. From anthropics/claude-code-playground (Apache-2.0)."
+    },
+    {
+      "name": "usage-panel",
+      "source": "./usage-panel",
+      "description": "A pane with context, 5-hour and weekly usage, what is left, and when each limit resets."
+    },
+    {
+      "name": "nvim-live",
+      "source": "./nvim-live",
+      "description": "When Claude Code runs inside Neovim, plays each edit live there: opens the file and types the change in."
+    }
+  ]
+}

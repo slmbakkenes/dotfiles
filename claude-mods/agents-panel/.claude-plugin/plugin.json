@@ -1,0 +1,9 @@
+{
+  "name": "agents-panel",
+  "version": "0.1.0",
+  "description": "A pane with running and finished subagents: type, model, task, status, time and tokens.",
+  "author": {
+    "name": "Sven Bakkenes"
+  },
+  "types": "./types/index.d.ts"
+}

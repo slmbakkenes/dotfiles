@@ -1,0 +1,8 @@
+{
+  "name": "gruvbox",
+  "version": "0.2.0",
+  "description": "Gruvbox for Claude Code: native dark and light themes for /theme, plus a copy of hellosverre's skins mod (tool rows, highlighted code, diff, table, math, Mermaid and shell cards, links, folding, a usage band, a calm mode) painted in Gruvbox. /skin changes it live.",
+  "author": { "name": "Sven Bakkenes" },
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

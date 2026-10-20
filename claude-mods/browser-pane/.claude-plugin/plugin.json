@@ -1,0 +1,5 @@
+{
+  "name": "browser-pane",
+  "version": "0.1.0",
+  "description": "Shows the Homebrew terminal-browser in a pane beside the chat; /browser [url|close]."
+}

@@ -16,6 +16,9 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `bin`      | `~/.local/bin/theme`         |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
 
+One folder is not a stow package: `claude-mods/` is a Claude Code plugin
+marketplace (see [Claude Code mods](#claude-code-mods)).
+
 ## Install
 
 ```bash
@@ -31,6 +34,32 @@ theme dark   # or: theme light
 
 Stow refuses to overwrite existing files — move any pre-existing config out
 of the way first.
+
+## Claude Code mods
+
+`claude-mods/` is a local plugin marketplace, `sven-mods`, with the Claude Code
+mods that go with this setup:
+
+| Mod              | What                                                                 |
+| ---------------- | -------------------------------------------------------------------- |
+| `gruvbox`        | Gruvbox dark and light skins for Claude Code                         |
+| `nvim-live`      | Run inside nvim (`<C-,>`), plays each edit live in the editor and marks touched files in nvim-tree |
+| `agents-panel`   | Pane with running and finished subagents                             |
+| `usage-panel`    | Pane with context, 5-hour and weekly usage                           |
+| `browser-pane`   | terminal-browser beside the chat (`/browser`)                        |
+| `replay-theater` | Steps through the last turn's edits, one diff at a time              |
+
+The nvim side of `nvim-live` lives in `nvim/.config/nvim/lua/sven/claude.lua`.
+
+```bash
+claude plugin marketplace add ~/Development/dotfiles/claude-mods
+for p in gruvbox nvim-live agents-panel usage-panel browser-pane replay-theater; do
+  claude plugin install "$p@sven-mods"
+done
+```
+
+After changing a mod, bump its `version` in `<mod>/.claude-plugin/plugin.json`
+and run `claude plugin update <mod>@sven-mods`.
 
 ## Homebrew
 
