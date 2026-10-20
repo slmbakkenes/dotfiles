@@ -1,7 +1,6 @@
 -- File tree sidebar: a plain buffer (vim motions, `/`), and nvim-tree's own keys
 -- for files: a add (end in / for a folder), d delete, r rename, c copy, x cut,
--- p paste, g? help. `-` shows the current file in it. sven.claude adds
--- Claude's icon to the files it touched.
+-- p paste, g? help. `-` shows the current file in it.
 --
 -- Git styled like the filetree Claude Code mod: one letter at the right edge
 -- (M modified, A staged, R renamed, U untracked, D deleted, ! conflict) and
@@ -164,6 +163,7 @@ return {
 			view = { width = 40 },
 			renderer = {
 				group_empty = true,
+				root_folder_label = ":t", -- the folder's name, not its path
 				highlight_git = "name",
 				indent_markers = { enable = true },
 				icons = {
@@ -188,7 +188,6 @@ return {
 					"Bookmark",
 					"Diagnostics",
 					"Copied",
-					require("sven.claude").decorator(),
 					"Cut",
 				},
 			},

@@ -1,17 +1,8 @@
 -- Claude Code in a terminal split (snacks.terminal), run from the git root.
--- Files it changes on disk reload by themselves. The nvim-live Claude Code mod
--- (claude-mods) reaches this nvim through $NVIM: it plays its edits live here
--- and fires `User ClaudeTouch` ({ path, kind = "read"|"wrote" }) per file, which
--- the nvim-tree sidebar follows the way the filetree mod does: the folders above
--- each touched or git-changed file open, and the file gets Claude's icon.
--- `nvim <dir>` opens that layout straight away.
+-- Files it changes on disk reload by themselves, and the nvim-tree sidebar opens
+-- the folders above each git-changed file. `nvim <dir>` opens that layout
+-- straight away.
 local M = {}
-
--- Touched files this nvim session, absolute path -> "read" | "wrote".
-M.touched = {}
-M.last = nil
-
-local ICON = "\u{ec82}" -- nf-cod-claude
 
 local function root()
 	return vim.fs.root(0, ".git") or vim.uv.cwd()
@@ -21,19 +12,14 @@ local function tree()
 	return require("nvim-tree.api").tree
 end
 
--- Opens the folders above `paths` in the tree, its cursor ending on `target`.
--- Leaves the current window where it is.
-local function follow(paths, target)
+-- Opens the folders above `paths` in the tree. Leaves the current window where
+-- it is.
+local function follow(paths)
 	if not tree().is_visible() then
 		return
 	end
 	for _, path in ipairs(paths) do
-		if path ~= target then
-			tree().find_file({ buf = path })
-		end
-	end
-	if target then
-		tree().find_file({ buf = target })
+		tree().find_file({ buf = path })
 	end
 	tree().reload()
 end
@@ -55,9 +41,7 @@ end
 
 local function open_explorer(opts)
 	tree().toggle({ focus = opts and opts.focus })
-	changed(function(paths)
-		follow(vim.list_extend(paths, vim.tbl_keys(M.touched)), M.last)
-	end)
+	changed(follow)
 end
 
 function M.explorer()
@@ -71,42 +55,16 @@ function M.toggle(args)
 	local cmd = vim.list_extend({ "claude" }, args or {})
 	Snacks.terminal.toggle(cmd, {
 		cwd = root(),
-		win = { position = "right", width = 0.4 },
+		win = {
+			position = "right",
+			width = 0.4,
+			-- on the side panes' background (sven.plugins.colorscheme)
+			wo = {
+				winhighlight = "Normal:ClaudeNormal,NormalNC:ClaudeNormal,WinBar:ClaudeWinBar,WinBarNC:ClaudeWinBar,WinSeparator:WinSeparator",
+				winbar = " %{get(b:, 'term_title', '')}", -- without snacks' "1: "
+			},
+		},
 	})
-end
-
--- nvim-tree decorator: Claude's icon after a file it wrote (orange) or read
--- (dim), and after a closed folder the count of touched files under it.
-function M.decorator()
-	local Decorator = require("nvim-tree.api").Decorator:extend()
-
-	function Decorator:new()
-		self.enabled = true
-		self.highlight_range = "none"
-		self.icon_placement = "after"
-	end
-
-	function Decorator:icons(node)
-		local path = node.absolute_path
-		local kind = M.touched[path]
-		if kind then
-			local hl = path == M.last and "ClaudeLast" or kind == "wrote" and "ClaudeWrote" or "ClaudeRead"
-			return { { str = ICON, hl = { hl } } }
-		end
-		if node.type == "directory" and not node.open then
-			local n = 0
-			for p in pairs(M.touched) do
-				if vim.startswith(p, path .. "/") then
-					n = n + 1
-				end
-			end
-			if n > 0 then
-				return { { str = ICON .. " " .. n, hl = { "ClaudeWrote" } } }
-			end
-		end
-	end
-
-	return Decorator
 end
 
 -- The most recent file of v:oldfiles under `dir`, if any is still there.
@@ -152,25 +110,6 @@ function M.setup()
 		end
 	end))
 
-	vim.api.nvim_set_hl(0, "ClaudeWrote", { link = "GruvboxOrange", default = true })
-	vim.api.nvim_set_hl(0, "ClaudeRead", { link = "Comment", default = true })
-	vim.api.nvim_set_hl(0, "ClaudeLast", { link = "GruvboxOrangeBold", default = true })
-
-	vim.api.nvim_create_autocmd("User", {
-		group = group,
-		pattern = "ClaudeTouch",
-		callback = function(ev)
-			local path, kind = ev.data.path, ev.data.kind
-			if M.touched[path] ~= "wrote" then
-				M.touched[path] = kind
-			end
-			M.last = path
-			if not tree().is_visible() then
-				return open_explorer({ focus = false })
-			end
-			follow(vim.tbl_keys(M.touched), path)
-		end,
-	})
 	-- Read now, before a directory handler can rename the argument.
 	local arg = vim.fn.argc() == 1 and vim.fn.argv(0) or ""
 	if vim.fn.isdirectory(arg) == 1 then
@@ -184,11 +123,6 @@ function M.setup()
 			end),
 		})
 	end
-	vim.api.nvim_create_user_command("ClaudeClear", function()
-		M.touched, M.last = {}, nil
-		follow({})
-	end, { desc = "Forget the files Claude touched" })
-
 	local map = vim.keymap.set
 	map({ "n", "t" }, "<C-,>", M.toggle, { desc = "Toggle Claude Code" })
 	map("n", "<leader>ac", M.toggle, { desc = "Toggle Claude Code" })

@@ -35,8 +35,7 @@ of the way first.
 ## Claude Code
 
 Claude Code config (`~/.claude`) and the `sven-mods` plugin marketplace live in
-the private [claude](https://github.com/slmbakkenes/claude) repo. The nvim side
-of its `nvim-live` mod is `nvim/.config/nvim/lua/sven/claude.lua`.
+the private [claude](https://github.com/slmbakkenes/claude) repo.
 
 ## Homebrew
 

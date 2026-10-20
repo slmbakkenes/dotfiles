@@ -22,6 +22,9 @@ opt.cursorline = true -- highlight the current cursor line
 -- appearance
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+opt.fillchars = { eob = " " } -- no ~ after the end of a buffer
+opt.showmode = false -- lualine shows the mode
+opt.cmdheight = 0 -- the command line only shows while typing a command
 
 -- clipboard
 opt.clipboard:append("unnamedplus") -- use system clipboard as default register
