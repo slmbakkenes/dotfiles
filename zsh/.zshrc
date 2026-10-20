@@ -1,3 +1,6 @@
+# Drop CLAUDE_* vars inherited from a Claude Code session that no longer exists (e.g. kitty relaunched by Claude)
+[[ -n $CLAUDE_PID ]] && ! kill -0 $CLAUDE_PID 2>/dev/null && unset ${(M)${(k)parameters}:#CLAUDE*} AI_AGENT
+
 # History
 HISTFILE=$HOME/.zhistory
 SAVEHIST=10000
