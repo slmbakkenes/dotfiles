@@ -18,5 +18,7 @@ return {
 		vim.keymap.set("n", "<leader>wm", function()
 			Snacks.zen.zoom()
 		end, { desc = "Maximize/minimize split" })
+
+		require("sven.claude").setup()
 	end,
 }
