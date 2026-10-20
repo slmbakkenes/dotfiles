@@ -1,1 +1,0 @@
-{ "name": "nvim-live", "version": "0.1.0", "description": "Plays Claude edits live in the Neovim that runs this session: opens the file and types the change in." }
