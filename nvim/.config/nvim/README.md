@@ -6,7 +6,7 @@ Personal Neovim configuration. Runs on macOS (Apple Silicon). Part of the
 ## Install
 
 ```bash
-cd ~/Development/dotfiles
+cd ~/.dotfiles
 stow nvim   # links ~/.config/nvim
 nvim
 ```

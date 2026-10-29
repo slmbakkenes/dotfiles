@@ -19,8 +19,8 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 ## Install
 
 ```bash
-git clone https://github.com/slmbakkenes/dotfiles.git ~/Development/dotfiles
-cd ~/Development/dotfiles
+git clone https://github.com/slmbakkenes/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
 brew bundle --file=homebrew/.Brewfile
 stow zsh starship nvim kitty btop yazi mise bin homebrew
 mise install
