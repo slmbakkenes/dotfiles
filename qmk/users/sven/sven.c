@@ -1,18 +1,20 @@
 #include "sven.h"
 
 #ifdef RGB_MATRIX_ENABLE
-// Gruvbox hues (QMK scale, 0-255), so the board shows which layer is active.
-static const uint8_t layer_hues[] = {
-    [_BASE] = 17,  // orange #d65d0e
-    [_SYM]  = 87,  // aqua   #689d6a
-    [_NAV]  = 129, // blue   #458588
-    [_NUM]  = 236, // purple #b16286
-    [_SYS]  = 2,   // red    #cc241d
+// Gruvbox accents as hue and saturation (QMK scale, 0-255), so the board
+// shows which layer is active. Brightness stays whatever RM_VALD/RM_VALU set.
+static const struct {
+    uint8_t hue, sat;
+} layer_colors[] = {
+    [_BASE] = {17, 238},  // orange #d65d0e
+    [_SYM]  = {87, 86},   // aqua   #689d6a
+    [_NAV]  = {129, 126}, // blue   #458588
+    [_NUM]  = {236, 114}, // purple #b16286
+    [_SYS]  = {2, 219},   // red    #cc241d
 };
-#    define LAYER_SAT 220
 
 static void show_layer(uint8_t layer) {
-    rgb_matrix_sethsv_noeeprom(layer_hues[layer], LAYER_SAT, rgb_matrix_get_val());
+    rgb_matrix_sethsv_noeeprom(layer_colors[layer].hue, layer_colors[layer].sat, rgb_matrix_get_val());
 }
 
 void keyboard_post_init_user(void) {
