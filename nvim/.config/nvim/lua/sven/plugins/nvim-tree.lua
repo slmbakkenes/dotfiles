@@ -1,6 +1,6 @@
 -- File tree sidebar: a plain buffer (vim motions, `/`), and nvim-tree's own keys
 -- for files: a add (end in / for a folder), d delete, r rename, c copy, x cut,
--- p paste, g? help. `-` shows the current file in it.
+-- p paste, g? help; l opens and h closes a folder. `-` shows the current file in it.
 --
 -- Git styled like the filetree Claude Code mod: one letter at the right edge
 -- (M modified, A staged, R renamed, U untracked, D deleted, ! conflict) and
@@ -193,6 +193,24 @@ return {
 			},
 			update_focused_file = { enable = true },
 			filters = { dotfiles = false },
+			-- the defaults, plus l to open a folder or file and h to close the
+			-- folder (or the one it is in)
+			on_attach = function(bufnr)
+				local api = require("nvim-tree.api")
+				api.config.mappings.default_on_attach(bufnr)
+				local function map(lhs, rhs, desc)
+					vim.keymap.set("n", lhs, rhs, { buffer = bufnr, nowait = true, desc = "nvim-tree: " .. desc })
+				end
+				map("l", api.node.open.edit, "Open")
+				map("h", function()
+					local node = api.tree.get_node_under_cursor()
+					if node and node.nodes and node.open then
+						api.node.open.edit()
+					else
+						api.node.navigate.parent_close()
+					end
+				end, "Close folder")
+			end,
 		})
 
 		git_highlights()

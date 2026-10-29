@@ -1,6 +1,6 @@
 [tools]
 "aqua:LuaLS/lua-language-server" = "latest"
-node = "lts"
+node = ["lts", "latest"]
 "aqua:JohnnyMorganz/StyLua" = "latest"
 "npm:prettier" = "latest"
 "npm:typescript" = "latest"
@@ -12,3 +12,5 @@ node = "lts"
 "npm:dockerfile-language-server-nodejs" = "latest"
 "npm:@sentry/cli" = "latest"
 pnpm = "latest"
+dotnet = "10"
+uv = "latest"
