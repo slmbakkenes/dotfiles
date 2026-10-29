@@ -70,10 +70,6 @@ brew "sevenzip"
 brew "starship"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
-# Terminal multiplexer
-brew "tmux"
-# Manage complex tmux sessions easily
-brew "tmuxinator"
 # Parser generator tool
 brew "tree-sitter-cli"
 # Internet file retriever
@@ -94,8 +90,6 @@ cask "android-studio"
 cask "claude"
 # Universal database tool and SQL client
 cask "dbeaver-community"
-# Developer platform
-cask "dotnet-sdk"
 # Email client
 cask "fastmail"
 # Web browser
