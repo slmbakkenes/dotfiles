@@ -106,8 +106,6 @@ cask "font-iosevka-nerd-font"
 cask "font-monaspice-nerd-font"
 # Web browser
 cask "google-chrome"
-# ZSA keyboard firmware flasher
-cask "keymapp"
 # GPU-based terminal emulator
 cask "kitty"
 # Meet, chat, call, and collaborate in just one place

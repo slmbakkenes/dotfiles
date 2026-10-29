@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Build the sven keymap from ~/.dotfiles/qmk and flash it, instead of Keymapp.
+#
+#   flash-keyboard              flash whichever ZSA board is plugged in
+#   flash-keyboard moonlander   flash a specific board
+#   flash-keyboard voyager
+#
+# Both boards flash over DFU with dfu-util; `qmk flash` waits until the board
+# is in its bootloader, so start it, then hold Space + Enter (SYS) and tap the
+# top-left key, or press the reset button.
+set -euo pipefail
+
+# arm-none-eabi-gcc@8 is keg-only; .zprofile adds it, but not every caller is a login shell
+for dir in /opt/homebrew/opt/arm-none-eabi-gcc@8/bin /opt/homebrew/opt/arm-none-eabi-binutils/bin; do
+  [[ -d "$dir" && ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
+done
+
+# USB ids (decimal, as ioreg prints them): keyboard mode, then bootloader mode.
+# The Moonlander's bootloader is the generic STM32 one (0483:df11).
+usb_ids() { ioreg -p IOUSB -l -w0 | awk -F' = ' '/"idVendor"/ {v=$2} /"idProduct"/ {print v ":" $2}'; }
+detect() {
+  local ids found=()
+  ids="$(usb_ids)"
+  grep -qxE '12951:6505|1155:57105' <<<"$ids" && found+=(moonlander)
+  grep -qxE '12951:6519|12951:1937' <<<"$ids" && found+=(voyager)
+  case ${#found[@]} in
+    1) echo "${found[0]}" ;;
+    0) echo "flash-keyboard: no Moonlander or Voyager found, plug one in or name it" >&2; exit 1 ;;
+    *) echo "flash-keyboard: both boards are plugged in, name the one to flash" >&2; exit 1 ;;
+  esac
+}
+
+case "${1:-}" in
+  "") board="$(detect)" ;;
+  moonlander | voyager) board="$1" ;;
+  *) echo "usage: flash-keyboard [moonlander|voyager]" >&2; exit 1 ;;
+esac
+
+echo "flash-keyboard: building $board; when it waits for the bootloader, hold Space + Enter and tap the top-left key (or press reset)"
+qmk flash -kb "zsa/$board" -km sven

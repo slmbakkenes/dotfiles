@@ -33,12 +33,13 @@ boards need.
 ## Build and flash
 
 ```bash
-qmk userspace-compile                        # both boards -> qmk/*.bin
-qmk compile -kb zsa/moonlander -km sven      # just one
-qmk flash   -kb zsa/moonlander -km sven      # build + flash, then press the reset button
+flash-keyboard                               # build + flash whichever board is plugged in
+qmk userspace-compile                        # build both boards -> qmk/*.bin
 ```
 
-Or open the `.bin` in Keymapp and flash from there.
+`flash-keyboard` (from the `bin` stow package) wraps `qmk flash` and waits for
+the bootloader: hold Space + Enter and tap the top-left key, or press the reset
+button. Keymapp is not needed.
 
 ## Cheat sheet
 

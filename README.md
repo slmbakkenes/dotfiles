@@ -13,7 +13,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `btop`     | `~/.config/btop/`            |
 | `yazi`     | `~/.config/yazi/` (Gruvbox dark/light flavors) |
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
-| `bin`      | `~/.local/bin/theme`         |
+| `bin`      | `~/.local/bin/` (`theme`, `flash-keyboard`) |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
 
 `qmk/` is not a stow package: it is the QMK firmware for the Moonlander and
