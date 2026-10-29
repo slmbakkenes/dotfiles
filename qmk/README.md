@@ -40,6 +40,18 @@ qmk flash   -kb zsa/moonlander -km sven      # build + flash, then press the res
 
 Or open the `.bin` in Keymapp and flash from there.
 
+## Cheat sheet
+
+Keymapp only shows Oryx layouts, so `cheatsheet/gen.py` renders both keymaps
+into one page (layer tabs, key search, Moonlander/Voyager toggle):
+
+```bash
+python3 cheatsheet/gen.py    # -> .build/keymap.html
+```
+
+Rerun it after changing a layer. The page lives as a Claude artifact, so ask
+Claude to republish it.
+
 ## macOS
 
 - Input source: **ABC** only. The firmware sends US key positions; with Dutch

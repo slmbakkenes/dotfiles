@@ -1,0 +1,311 @@
+<title>Moonlander Keymap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one keyboard drawn at its real key positions, layer tabs above, find bar on top. Gruvbox, like the rest of the dotfiles. */
+:root {
+  --bg: #fbf1c7; --bg1: #f2e5bc; --cap: #ebdbb2; --cap-edge: #d5c4a1; --fg: #3c3836; --muted: #7c6f64;
+  --orange: #af3a03; --aqua: #427b58; --blue: #076678; --purple: #8f3f71; --red: #9d0006; --hit: #b57614;
+  --on-color: #fbf1c7;
+  --font-ui: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-key: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #282828; --bg1: #32302f; --cap: #3c3836; --cap-edge: #504945; --fg: #ebdbb2; --muted: #a89984;
+  --orange: #fe8019; --aqua: #8ec07c; --blue: #83a598; --purple: #d3869b; --red: #fb4934; --hit: #fabd2f;
+  --on-color: #282828; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #282828; --bg1: #32302f; --cap: #3c3836; --cap-edge: #504945; --fg: #ebdbb2; --muted: #a89984;
+  --orange: #fe8019; --aqua: #8ec07c; --blue: #83a598; --purple: #d3869b; --red: #fb4934; --hit: #fabd2f;
+  --on-color: #282828; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; }
+
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+
+.seg { display: inline-flex; border: 1px solid var(--cap-edge); border-radius: 8px; overflow: hidden; }
+.seg button { font: 500 14px var(--font-ui); background: transparent; color: var(--muted); border: 0; padding: 6px 14px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--cap); color: var(--fg); }
+
+.find { display: grid; gap: 10px; background: var(--bg1); border: 1px solid var(--cap-edge); border-radius: 10px; padding: 14px; }
+.find label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.find-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#q { font: 16px var(--font-ui); background: var(--bg); color: var(--fg); border: 1px solid var(--cap-edge); border-radius: 6px; padding: 7px 10px; min-width: 0; flex: 1 1 220px; }
+.chip { font: 500 13px var(--font-ui); background: var(--bg); color: var(--fg); border: 1px solid var(--cap-edge); border-radius: 999px; padding: 4px 11px; cursor: pointer; }
+.chip:hover { border-color: var(--hit); }
+#results { font-size: 14px; min-height: 1.45em; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+#results button { font: inherit; background: none; border: 0; padding: 0; color: var(--fg); cursor: pointer; text-decoration: underline; text-decoration-color: var(--hit); text-underline-offset: 3px; }
+#results .none { color: var(--muted); }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab { --c: var(--orange); font: inherit; text-align: left; cursor: pointer; background: var(--bg1); color: var(--fg); border: 1px solid var(--cap-edge); border-left: 6px solid var(--c); border-radius: 8px; padding: 7px 12px; display: grid; gap: 1px; position: relative; }
+.tab b { font-size: 15px; font-weight: 600; }
+.tab span { font-size: 12.5px; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--c); border-color: var(--c); color: var(--on-color); }
+.tab[aria-selected="true"] span { color: var(--on-color); opacity: .85; }
+.tab .badge { position: absolute; top: -7px; right: -7px; background: var(--hit); color: var(--on-color); font: 600 11px var(--font-key); border-radius: 999px; min-width: 18px; height: 18px; display: grid; place-items: center; padding: 0 4px; }
+.tab:focus-visible, .seg button:focus-visible, .chip:focus-visible, #q:focus-visible { outline: 2px solid var(--hit); outline-offset: 2px; }
+
+.board-scroll { overflow-x: auto; padding-bottom: 4px; }
+.board { --W: 17; --H: 6.5; --c: var(--orange); position: relative; width: 100%; min-width: 660px; aspect-ratio: var(--W) / var(--H); container-type: inline-size; }
+.key { --u: calc(100cqw / var(--W)); position: absolute; box-sizing: border-box; padding: calc(var(--u) * 0.04); }
+.cap { height: 100%; box-sizing: border-box; background: var(--cap); border: 1px solid var(--cap-edge); border-bottom-width: 3px; border-radius: calc(var(--u) * 0.12); display: grid; grid-template-rows: 1fr auto; align-items: center; justify-items: center; overflow: hidden; padding: calc(var(--u) * 0.05); text-align: center; }
+.tap { font: 600 calc(var(--u) * 0.3) / 1.05 var(--font-key); }
+.tap.long { font-size: calc(var(--u) * 0.17); font-family: var(--font-ui); font-weight: 600; }
+.sub { font: 400 calc(var(--u) * 0.15) / 1.1 var(--font-key); color: var(--muted); }
+.hold { font: 600 calc(var(--u) * 0.14) / 1.1 var(--font-ui); color: var(--c); letter-spacing: 0.02em; }
+.hold.layer { color: var(--on-color); background: var(--lc); border-radius: 3px; padding: 0 calc(var(--u) * 0.05); }
+.key.trans .cap { background: transparent; border-style: dashed; border-bottom-width: 1px; }
+.key.trans .tap { color: var(--muted); opacity: .45; font-weight: 400; }
+.key.none .cap { background: transparent; border-color: transparent; }
+.key.held .cap { background: var(--c); border-color: var(--c); color: var(--on-color); }
+.key.held .tap { font-size: calc(var(--u) * 0.17); font-family: var(--font-ui); }
+.key.dim { opacity: .3; }
+.key.hit .cap { outline: calc(var(--u) * 0.06) solid var(--hit); outline-offset: calc(var(--u) * -0.02); }
+.key.extra .cap { border-style: solid; }
+.board-note { font-size: 13px; color: var(--muted); margin: 0; }
+
+.tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.tip { background: var(--bg1); border: 1px solid var(--cap-edge); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.tip h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 6px; color: var(--muted); }
+.tip p { margin: 0; }
+kbd { font: 600 13px var(--font-key); background: var(--cap); border: 1px solid var(--cap-edge); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; white-space: nowrap; }
+@media (prefers-reduced-motion: no-preference) { .cap { transition: background .12s, opacity .12s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Moonlander Keymap <small>QMK userspace “sven” · ~/.dotfiles/qmk</small></h1>
+    <div class="seg" role="group" aria-label="Keyboard">
+      <button id="b-moonlander" aria-pressed="true">Moonlander</button>
+      <button id="b-voyager" aria-pressed="false">Voyager</button>
+    </div>
+  </header>
+
+  <section class="find" aria-label="Find a key">
+    <label for="q">Where is…</label>
+    <div class="find-row">
+      <input id="q" type="search" placeholder="cmd, esc, é, {, undo, arrows…" autocomplete="off">
+    </div>
+    <div class="find-row" id="chips"></div>
+    <div id="results" aria-live="polite"></div>
+  </section>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Layers"></nav>
+
+  <div class="board-scroll"><div class="board" id="board" role="img" aria-label="Keyboard layout"></div></div>
+  <p class="board-note" id="note"></p>
+
+  <section class="tips">
+    <div class="tip"><h2>Home row mods</h2><p>Hold a home row key for a modifier: <kbd>A</kbd>/<kbd>;</kbd> Cmd, <kbd>S</kbd>/<kbd>L</kbd> Opt, <kbd>D</kbd>/<kbd>K</kbd> Ctrl, <kbd>F</kbd>/<kbd>J</kbd> Shift. Only works with a key on the <em>other</em> hand: Cmd+C is hold <kbd>;</kbd>, tap <kbd>C</kbd>.</p></div>
+    <div class="tip"><h2>Accents</h2><p>Hold Enter, tap an accent on the number row, let go, then type the letter: <kbd>´</kbd> <kbd>e</kbd> = é, <kbd>¨</kbd> <kbd>e</kbd> = ë. Needs macOS input source ABC.</p></div>
+    <div class="tip"><h2>Caps Word</h2><p>Hold both Shifts (<kbd>F</kbd> + <kbd>J</kbd>) to type the next word in CAPITALS, like MAX_SIZE. Space ends it.</p></div>
+    <div class="tip"><h2>LED colors</h2><p>The board lights up in the layer's color: orange base, aqua symbols, blue navigation, purple numbers, red system.</p></div>
+  </section>
+</div>
+
+<script>
+const DATA = __DATA__;
+
+const LAYERS = [
+  { name: "Base",       short: "BASE", color: "--orange", how: "Default" },
+  { name: "Symbols",    short: "SYM",  color: "--aqua",   how: "Hold Enter" },
+  { name: "Navigation", short: "NAV",  color: "--blue",   how: "Hold Space" },
+  { name: "Numbers",    short: "NUM",  color: "--purple", how: "Hold Tab" },
+  { name: "System",     short: "SYS",  color: "--red",    how: "Hold Space + Enter" },
+];
+const LAYER_BY_ID = { _BASE: 0, _SYM: 1, _NAV: 2, _NUM: 3, _SYS: 4 };
+
+const MODS = {
+  GUI: { sym: "⌘", name: "Cmd", words: "cmd command gui ⌘" },
+  ALT: { sym: "⌥", name: "Opt", words: "opt option alt ⌥" },
+  CTL: { sym: "⌃", name: "Ctrl", words: "ctrl control ⌃" },
+  SFT: { sym: "⇧", name: "Shift", words: "shift ⇧" },
+};
+
+// [label, sub-label, extra search words]
+const KC = {
+  GRV: ["`", "", "backtick grave"], MINS: ["-", "", "minus dash hyphen"], EQL: ["=", "", "equals"],
+  TAB: ["Tab", "", "tab"], ESC: ["Esc", "", "esc escape"], BSPC: ["⌫", "", "backspace bspc"],
+  DEL: ["Del", "", "delete forward"], ENT: ["Enter", "", "enter return ⏎"], SPC: ["Space", "", "space"],
+  QUOT: ["'", "", "quote apostrophe"], SCLN: [";", "", "semicolon"], COMM: [",", "", "comma"],
+  DOT: [".", "", "dot period"], SLSH: ["/", "", "slash"], BSLS: ["\\", "", "backslash"],
+  LBRC: ["[", "", "bracket"], RBRC: ["]", "", "bracket"], LPRN: ["(", "", "paren"], RPRN: [")", "", "paren"],
+  LCBR: ["{", "", "brace curly"], RCBR: ["}", "", "brace curly"], LT: ["<", "", "less angle"], GT: [">", "", "greater angle"],
+  PIPE: ["|", "", "pipe"], CIRC: ["^", "", "caret"], DLR: ["$", "", "dollar"], EXLM: ["!", "", "exclamation bang"],
+  ASTR: ["*", "", "asterisk star"], AMPR: ["&", "", "ampersand"], HASH: ["#", "", "hash pound"],
+  DQUO: ["\"", "", "double quote"], QUES: ["?", "", "question"], TILD: ["~", "", "tilde"], PLUS: ["+", "", "plus"],
+  PERC: ["%", "", "percent"], AT: ["@", "", "at"], COLN: [":", "", "colon"], UNDS: ["_", "", "underscore"],
+  LEFT: ["←", "", "arrow left"], RGHT: ["→", "", "arrow right"], UP: ["↑", "", "arrow up"], DOWN: ["↓", "", "arrow down"],
+  HOME: ["Home", "", "home"], END: ["End", "", "end"], PGUP: ["PgUp", "", "page up"], PGDN: ["PgDn", "", "page down"],
+  MPRV: ["⏮", "", "media previous"], MNXT: ["⏭", "", "media next"], MPLY: ["⏯", "", "media play pause"],
+  VOLD: ["Vol−", "", "volume down"], VOLU: ["Vol+", "", "volume up"], MUTE: ["Mute", "", "mute volume"],
+  BRID: ["Bri−", "", "brightness screen"], BRIU: ["Bri+", "", "brightness screen"],
+  LSFT: ["⇧", "Shift", MODS.SFT.words], RSFT: ["⇧", "Shift", MODS.SFT.words],
+  LCTL: ["⌃", "Ctrl", MODS.CTL.words], RCTL: ["⌃", "Ctrl", MODS.CTL.words],
+  LALT: ["⌥", "Opt", MODS.ALT.words], LGUI: ["⌘", "Cmd", MODS.GUI.words], RGUI: ["⌘", "Cmd", MODS.GUI.words],
+};
+const SPECIAL = {
+  "QK_BOOT": ["Boot", "flash", "boot reset bootloader flash"], "RM_TOGG": ["LED", "on/off", "led rgb light"],
+  "RM_VALD": ["LED−", "", "led rgb light dimmer"], "RM_VALU": ["LED+", "", "led rgb light brighter"],
+  "CW_TOGG": ["Caps", "word", "caps word capslock"],
+  "RALT(KC_GRV)": ["`", "è", "accent grave è à"], "RALT(KC_I)": ["ˆ", "ê", "accent circumflex ê"],
+  "RALT(KC_E)": ["´", "é", "accent acute é á"], "RALT(KC_U)": ["¨", "ë", "accent umlaut trema ë ï ö ü"],
+  "RALT(KC_N)": ["˜", "ñ", "accent tilde ñ"], "RALT(KC_C)": ["ç", "", "cedilla ç accent"],
+  "S(RALT(KC_2))": ["€", "", "euro"], "RALT(KC_S)": ["ß", "", "eszett sharp s"],
+  "G(KC_Z)": ["Undo", "⌘Z", "undo"], "G(KC_X)": ["Cut", "⌘X", "cut"], "G(KC_C)": ["Copy", "⌘C", "copy"],
+  "G(KC_V)": ["Paste", "⌘V", "paste"], "S(G(KC_Z))": ["Redo", "⇧⌘Z", "redo"],
+  "G(S(KC_LBRC))": ["Tab ←", "prev tab", "tab previous"], "G(S(KC_RBRC))": ["Tab →", "next tab", "tab next"],
+  "G(KC_GRV)": ["Window", "⌘`", "window next"], "G(KC_SPC)": ["Spotlight", "⌘Space", "spotlight launcher search"],
+  "S(G(KC_4))": ["Shot", "⇧⌘4", "screenshot"], "C(G(KC_Q))": ["Lock", "⌃⌘Q", "lock screen"],
+  "A(KC_LEFT)": ["Word ←", "⌥←", "word left jump"], "A(KC_RGHT)": ["Word →", "⌥→", "word right jump"],
+  "A(KC_BSPC)": ["Del word", "⌥⌫", "delete word backspace"],
+};
+
+function basic(kc) {
+  const k = kc.replace(/^KC_/, "");
+  if (/^[A-Z]$/.test(k)) return [k, "", k.toLowerCase() + " letter"];
+  if (/^[0-9]$/.test(k)) return [k, "", "number digit " + k];
+  if (/^F[0-9]+$/.test(k)) return [k, "", "function " + k.toLowerCase()];
+  return KC[k] || [k, "", k.toLowerCase()];
+}
+
+function describe(code) {
+  if (code === "_______") return { kind: "trans" };
+  if (code === "XXXXXXX") return { kind: "none" };
+  if (SPECIAL[code]) { const [tap, sub, words] = SPECIAL[code]; return { tap, sub, words }; }
+  let m = code.match(/^[LR](GUI|ALT|CTL|SFT)_T\((KC_\w+)\)$/);
+  if (m) { const [tap, , words] = basic(m[2]); const mod = MODS[m[1]];
+    return { tap, hold: mod.sym + " " + mod.name, words: words + " " + mod.words + " hold" }; }
+  m = code.match(/^LT\((_\w+),(KC_\w+)\)$/);
+  if (m) { const [tap, , words] = basic(m[2]); const l = LAYERS[LAYER_BY_ID[m[1]]];
+    return { tap, holdLayer: l, words: words + " " + l.name.toLowerCase() + " " + l.short.toLowerCase() + " layer" }; }
+  const [tap, sub, words] = basic(code);
+  return { tap, sub, words };
+}
+
+// Which thumb keys are held down to reach each layer.
+function heldKeys(base) {
+  const held = LAYERS.map(() => new Set());
+  base.forEach((code, i) => {
+    const m = code.match(/^LT\((_\w+),/);
+    if (!m) return;
+    const l = LAYER_BY_ID[m[1]];
+    held[l].add(i);
+    if (l === 1 || l === 2) held[4].add(i);
+  });
+  return held;
+}
+
+// Keys the Voyager does not have (for the note under the Moonlander).
+const ML_EXTRA = new Set([6, 7, 20, 21, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 68, 69]);
+
+const state = { board: "moonlander", layer: 0, q: "" };
+try { const b = localStorage.getItem("board"); if (b && DATA[b]) state.board = b; } catch (e) {}
+
+const $ = (s) => document.querySelector(s);
+const boardEl = $("#board"), tabsEl = $("#tabs");
+
+function matches(d, q) {
+  if (!q || d.kind) return false;
+  const hay = [d.tap, d.sub, d.hold, d.words].filter(Boolean).join(" ").toLowerCase();
+  return q.split(/\s+/).every((t) => hay.includes(t));
+}
+
+function render() {
+  const kb = DATA[state.board];
+  const W = Math.max(...kb.keys.map((k) => k.x + k.w));
+  const H = Math.max(...kb.keys.map((k) => k.y + k.h));
+  const q = state.q.trim().toLowerCase();
+  const held = heldKeys(kb.layers[0]);
+  const descs = kb.layers.map((layer) => layer.map(describe));
+  const counts = descs.map((ds) => ds.filter((d) => matches(d, q)).length);
+
+  document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.id === "b-" + state.board)));
+  document.title = state.board === "moonlander" ? "Moonlander Keymap" : "Voyager Keymap";
+
+  tabsEl.innerHTML = "";
+  LAYERS.forEach((l, i) => {
+    const t = document.createElement("button");
+    t.className = "tab"; t.setAttribute("role", "tab"); t.setAttribute("aria-selected", String(i === state.layer));
+    t.style.setProperty("--c", `var(${l.color})`);
+    t.innerHTML = `<b>${i + 1} · ${l.name}</b><span>${l.how}</span>` + (q && counts[i] ? `<i class="badge">${counts[i]}</i>` : "");
+    t.onclick = () => { state.layer = i; render(); };
+    tabsEl.append(t);
+  });
+
+  const L = LAYERS[state.layer];
+  boardEl.style.setProperty("--W", W); boardEl.style.setProperty("--H", H);
+  boardEl.style.setProperty("--c", `var(${L.color})`);
+  boardEl.setAttribute("aria-label", `${state.board} ${L.name} layer`);
+  boardEl.innerHTML = "";
+  kb.keys.forEach((k, i) => {
+    const d = descs[state.layer][i];
+    const el = document.createElement("div");
+    el.className = "key";
+    Object.assign(el.style, { left: (k.x / W * 100) + "%", top: (k.y / H * 100) + "%", width: (k.w / W * 100) + "%", height: (k.h / H * 100) + "%" });
+    let inner = "";
+    if (held[state.layer].has(i)) {
+      el.classList.add("held"); inner = `<span class="tap">held</span>`;
+    } else if (d.kind === "trans") {
+      el.classList.add("trans");
+      const b = descs[0][i]; inner = b.kind ? "" : `<span class="tap">${esc(b.tap)}</span>`;
+    } else if (d.kind === "none") {
+      el.classList.add("none");
+    } else {
+      const long = [...d.tap].length > 2;
+      inner = `<span class="tap${long ? " long" : ""}">${esc(d.tap)}</span>`;
+      if (d.hold) inner += `<span class="hold">${esc(d.hold)}</span>`;
+      else if (d.holdLayer) inner += `<span class="hold layer" style="--lc: var(${d.holdLayer.color})">${d.holdLayer.short}</span>`;
+      else if (d.sub) inner += `<span class="sub">${esc(d.sub)}</span>`;
+    }
+    if (q) el.classList.add(matches(d, q) ? "hit" : "dim");
+    if (state.board === "moonlander" && ML_EXTRA.has(i)) el.classList.add("extra");
+    el.innerHTML = `<div class="cap">${inner}</div>`;
+    boardEl.append(el);
+  });
+
+  $("#note").textContent = state.board === "moonlander"
+    ? "Faded keys fall through to the base layer. The inner columns, bottom row, red keys and outer thumb keys are Moonlander-only; everything else is identical on the Voyager."
+    : "Faded keys fall through to the base layer. Same core as the Moonlander, without its extra keys.";
+
+  const res = $("#results");
+  if (!q) { res.innerHTML = ""; return; }
+  const parts = LAYERS.map((l, i) => {
+    if (!counts[i]) return "";
+    const labels = descs[i].filter((d) => matches(d, q)).map((d) => d.hold ? `hold ${d.tap}` : d.tap);
+    return `<button data-l="${i}">${l.name}</button>: ${esc([...new Set(labels)].join(", "))}`;
+  }).filter(Boolean);
+  res.innerHTML = parts.length ? parts.map((p) => `<span>${p}</span>`).join("") : `<span class="none">Nothing matches “${esc(state.q)}”.</span>`;
+  res.querySelectorAll("button").forEach((b) => b.onclick = () => { state.layer = +b.dataset.l; render(); });
+}
+
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+["Cmd", "Ctrl", "Opt", "Shift", "Esc", "Enter", "Backspace", "Tab", "Delete", "é", "ë", "arrow", "{", "Undo", "Boot"].forEach((c) => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.textContent = c;
+  b.onclick = () => { $("#q").value = c; state.q = c; const best = firstLayerWith(c); if (best >= 0) state.layer = best; render(); };
+  $("#chips").append(b);
+});
+function firstLayerWith(q) {
+  const kb = DATA[state.board]; q = q.toLowerCase();
+  return kb.layers.findIndex((layer) => layer.map(describe).some((d) => matches(d, q)));
+}
+
+$("#q").addEventListener("input", (e) => { state.q = e.target.value; render(); });
+["moonlander", "voyager"].forEach((b) => $("#b-" + b).onclick = () => {
+  state.board = b; try { localStorage.setItem("board", b); } catch (e) {} render();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.target.id === "q" || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (/^[1-5]$/.test(e.key)) { state.layer = +e.key - 1; render(); }
+  if (e.key === "/") { e.preventDefault(); $("#q").focus(); }
+});
+render();
+</script>
