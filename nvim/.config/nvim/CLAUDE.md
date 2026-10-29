@@ -72,7 +72,8 @@ server: install the binary, add its name to `vim.lsp.enable()` in
 
 ## Theme
 
-Gruvbox Dark, medium contrast (`ellisonleao/gruvbox.nvim` in
-`lua/sven/plugins/colorscheme.lua`), with `vim.o.background = "dark"` matching
-`opt.background` in `lua/sven/core/options.lua`. Palette is shared with the
+Gruvbox, medium contrast (`ellisonleao/gruvbox.nvim` in
+`lua/sven/plugins/colorscheme.lua`). Dark or light comes from `~/.config/theme`
+(set by the dotfiles `theme` script), read in `lua/sven/core/theme.lua`, which
+also switches running instances on SIGUSR1. Palette is shared with the
 dotfiles repo — see its `README.md` for the hex table.

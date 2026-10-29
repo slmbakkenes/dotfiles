@@ -20,7 +20,6 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 opt.cursorline = true -- highlight the current cursor line
 
 -- appearance
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.fillchars = { eob = " " } -- no ~ after the end of a buffer
 opt.showmode = false -- lualine shows the mode
