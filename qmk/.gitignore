@@ -1,0 +1,4 @@
+# Firmware from `qmk userspace-compile`
+*.bin
+*.hex
+.build/

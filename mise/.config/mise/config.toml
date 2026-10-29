@@ -14,3 +14,5 @@ node = ["lts", "latest"]
 pnpm = "latest"
 dotnet = "10"
 uv = "latest"
+"pipx:qmk" = { version = "latest", uvx_args = "--managed-python" } # installed with uv
+"pipx:azure-cli" = { version = "latest", uvx_args = "--managed-python" } # installed with uv

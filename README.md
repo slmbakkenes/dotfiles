@@ -16,6 +16,9 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `bin`      | `~/.local/bin/theme`         |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
 
+`qmk/` is not a stow package: it is the QMK firmware for the Moonlander and
+Voyager keyboards, see [its README](qmk/README.md).
+
 ## Install
 
 ```bash
@@ -39,8 +42,12 @@ the private [claude](https://github.com/slmbakkenes/claude) repo.
 
 ## Homebrew
 
-`~/.Brewfile` is the source of truth for what's installed. Language servers,
-formatters, node and other dev tools live in mise instead, not brew.
+`~/.Brewfile` is the source of truth for native tools, libraries and apps.
+Anything that runs on a language runtime lives in mise instead: the runtimes
+themselves (node, dotnet, uv), language servers, formatters, and CLIs
+published as npm, dotnet or Python packages. Python CLIs (`az`, `qmk`) are
+`pipx:` tools that mise installs with uv on uv's own Python, so brew carries
+no Python at all.
 
 ```bash
 brew bundle check --global            # anything missing?

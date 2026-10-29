@@ -6,3 +6,5 @@ export PATH=$GEM_HOME/bin:$PATH
 export PATH="$PATH:$HOME/.dotnet/tools"
 # Go-installed binaries
 export PATH="$PATH:$HOME/go/bin"
+# QMK toolchain (keg-only, used by qmk compile)
+export PATH="$PATH:/opt/homebrew/opt/arm-none-eabi-gcc@8/bin:/opt/homebrew/opt/arm-none-eabi-binutils/bin"

@@ -1,5 +1,4 @@
-# Microsoft Azure CLI 2.0
-brew "azure-cli"
+tap "osx-cross/arm"
 # Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -58,6 +57,13 @@ brew "openjdk"
 brew "poppler"
 # Object-relational database system
 brew "postgresql@18"
+# ARM compiler for QMK keyboard firmware (qmk CLI itself comes from mise)
+brew "osx-cross/arm/arm-none-eabi-gcc@8"
+brew "osx-cross/arm/arm-none-eabi-binutils"
+# GNU make 4, needed by qmk compile
+brew "make"
+# Flashes QMK firmware over USB DFU
+brew "dfu-util"
 # Develop and deploy code with zero configuration
 brew "railway"
 # Search tool like grep and The Silver Searcher
