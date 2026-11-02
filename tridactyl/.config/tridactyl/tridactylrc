@@ -1,0 +1,20 @@
+" Tridactyl config for Zen.
+" Loaded on startup through the native messenger (run :installnative once).
+" Reload after editing with :source
+
+" Start from a clean slate so settings removed here don't linger in browser storage.
+sanitise tridactyllocal tridactylsync
+
+" Looks
+colourscheme dark
+set smoothscroll true
+
+" Ctrl-i in a text field edits it in nvim inside kitty.
+set editorcmd /Applications/kitty.app/Contents/MacOS/kitty nvim %f
+
+" Search shortcuts: `o gh <query>` / `t gh <query>`
+set searchurls.gh https://github.com/search?q=
+set searchurls.mdn https://developer.mozilla.org/en-US/search?q=
+
+" Sites with their own keyboard shortcuts: hand them the keys.
+" autocmd DocStart mail.google.com mode ignore

@@ -15,6 +15,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
 | `bin`      | `~/.local/bin/` (`theme`, `flash-keyboard`) |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
+| `tridactyl` | `~/.config/tridactyl/` (vim keys in Zen; needs `:installnative`) |
 
 `qmk/` is not a stow package: it is the QMK firmware for the Moonlander and
 Voyager keyboards, see [its README](qmk/README.md).
@@ -25,7 +26,7 @@ Voyager keyboards, see [its README](qmk/README.md).
 git clone https://github.com/slmbakkenes/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 brew bundle --file=homebrew/.Brewfile
-stow zsh starship nvim kitty btop yazi mise bin homebrew
+stow zsh starship nvim kitty btop yazi mise bin homebrew tridactyl
 mise install
 theme dark   # or: theme light
 ```
