@@ -1,0 +1,12 @@
+# dotfiles: nvim in the first tab (drops to a shell when nvim quits), a shell in the second
+new_tab dotfiles
+layout splits
+cd ~/Development/dotfiles
+launch --title nvim zsh -ic 'nvim; exec zsh'
+
+new_tab shell
+layout splits
+cd ~/Development/dotfiles
+launch
+
+focus_tab 0

@@ -1,0 +1,12 @@
+# zenvoices: nvim in the first tab (drops to a shell when nvim quits), a shell in the second
+new_tab zenvoices
+layout splits
+cd ~/Development/zenvoices/zenvoices-2.0
+launch --title nvim zsh -ic 'nvim; exec zsh'
+
+new_tab shell
+layout splits
+cd ~/Development/zenvoices/zenvoices-2.0
+launch
+
+focus_tab 0
