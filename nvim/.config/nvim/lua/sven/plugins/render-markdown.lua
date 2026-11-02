@@ -5,6 +5,8 @@ return {
 			file_types = { "markdown" },
 			code = {
 				disable_background = true,
+				-- "hide" conceals the fence lines, which also hides images snacks attaches to them
+				border = "thin",
 			},
 		})
 

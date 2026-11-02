@@ -33,6 +33,7 @@ Base system:
 | Nerd Font                    | `font-iosevka-nerd-font`    |
 | [mise](https://mise.jdx.dev) | `brew install mise`         |
 | .NET SDK                     | `brew install dotnet-sdk`   |
+| Mermaid diagrams (snacks.image) | mise `npm:@mermaid-js/mermaid-cli`, Google Chrome, kitty |
 
 LSP servers and formatters are managed by mise (activate it in your shell rc:
 `eval "$(mise activate zsh)"`):
