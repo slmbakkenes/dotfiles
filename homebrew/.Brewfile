@@ -102,6 +102,7 @@ cask "fastmail"
 cask "firefox"
 # UI toolkit for building applications for mobile, web and desktop
 cask "flutter"
+cask "font-atkinson-hyperlegible-mono"
 cask "font-iosevka-nerd-font"
 cask "font-monaspice-nerd-font"
 # Web browser

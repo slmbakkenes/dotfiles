@@ -45,7 +45,11 @@ return {
 	src = "https://github.com/ellisonleao/gruvbox.nvim",
 	priority = 1000, -- set up before other plugins
 	setup = function()
-		require("gruvbox").setup() -- defaults: medium contrast; background set in core/options
+		-- defaults: medium contrast; background set in core/theme. No italics: they
+		-- are the hardest to read at small sizes on a 1x screen
+		require("gruvbox").setup({
+			italic = { strings = false, emphasis = false, comments = false, operators = false, folds = false },
+		})
 		vim.api.nvim_create_autocmd("ColorScheme", { pattern = "gruvbox", callback = frame_highlights })
 		vim.cmd.colorscheme("gruvbox")
 	end,
