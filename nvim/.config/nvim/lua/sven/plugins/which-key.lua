@@ -26,6 +26,7 @@ return {
 				{ "<leader>gh", group = "Hunks" },
 				{ "<leader>m",  group = "Markdown" },
 				{ "<leader>n",  group = "Search" },
+				{ "<leader>o",  group = "Obsidian" },
 				{ "<leader>q",  group = "Session" },
 				{ "<leader>u",  group = "Toggles" },
 				{ "<leader>w",  group = "Window" },
