@@ -4,6 +4,9 @@ vim.g.kitty_navigator_no_mappings = 1 -- must be set before the plugin loads
 return {
 	src = "https://github.com/knubie/vim-kitty-navigator",
 	setup = function()
+		if vim.env.TMUX then
+			return -- inside tmux, vim-tmux-navigator owns Ctrl+hjkl
+		end
 		local map = vim.keymap.set
 		map("n", "<C-h>", "<cmd>KittyNavigateLeft<cr>", { desc = "Go to left split" })
 		map("n", "<C-j>", "<cmd>KittyNavigateDown<cr>", { desc = "Go to lower split" })
