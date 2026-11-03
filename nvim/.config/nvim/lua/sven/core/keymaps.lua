@@ -66,3 +66,24 @@ keymap.set("n", "<leader>us", function()
   vim.o.spell = not vim.o.spell
   vim.notify("Spell: " .. (vim.o.spell and "on" or "off"))
 end, { desc = "Toggle spell" })
+
+-- Jump between a file and its spec: foo.ts / foo.html / foo.scss -> foo.spec.ts,
+-- and a spec back to its file (a split spec, foo.store.mapping.spec.ts, to
+-- foo.store.ts). The tree hides specs (U shows them), so this is the way in.
+keymap.set("n", "<leader>ts", function()
+  local file = vim.api.nvim_buf_get_name(0)
+  local candidates
+  if file:match("%.spec%.ts$") then
+    local base = file:gsub("%.spec%.ts$", "")
+    candidates = { base .. ".ts", (base:gsub("%.[%w-]+$", "")) .. ".ts" }
+  else
+    local base = file:gsub("%.[%w]+$", "")
+    candidates = { base .. ".spec.ts" }
+  end
+  for _, path in ipairs(candidates) do
+    if vim.uv.fs_stat(path) then
+      return vim.cmd.edit(vim.fn.fnameescape(path))
+    end
+  end
+  vim.notify("No " .. vim.fs.basename(candidates[1]), vim.log.levels.WARN)
+end, { desc = "Toggle file / spec" })

@@ -1,6 +1,7 @@
 -- File tree sidebar: a plain buffer (vim motions, `/`), and nvim-tree's own keys
 -- for files: a add (end in / for a folder), d delete, r rename, c copy, x cut,
 -- p paste, g? help; l opens and h closes a folder. `-` shows the current file in it.
+-- Specs (*.spec.ts) are hidden: U shows them, <leader>ts jumps to a file's spec.
 --
 -- Git styled like the filetree Claude Code mod: one letter at the right edge
 -- (M modified, A staged, R renamed, U untracked, D deleted, ! conflict) and
@@ -192,7 +193,7 @@ return {
 				},
 			},
 			update_focused_file = { enable = true },
-			filters = { dotfiles = false },
+			filters = { dotfiles = false, custom = { "\\.spec\\.ts$" } },
 			-- the defaults, plus l to open a folder or file and h to close the
 			-- folder (or the one it is in)
 			on_attach = function(bufnr)
