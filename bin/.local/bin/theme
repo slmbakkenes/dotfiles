@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Switch kitty, starship, btop and nvim between Gruvbox dark and light.
+# Switch kitty, tmux, starship, btop and nvim between Gruvbox dark and light.
 #
 #   theme            print the current theme
 #   theme dark       switch to dark
@@ -30,6 +30,10 @@ for sock in /tmp/kitty-*; do
   [[ -S "$sock" ]] || continue
   kitten @ --to "unix:$sock" set-colors --all --configured "$kitty_dir/current-theme.conf" 2>/dev/null || true
 done
+
+# tmux: running servers re-source the theme
+ln -sf "gruvbox-$t.conf" "$HOME/.config/tmux/current-theme.conf"
+tmux source-file "$HOME/.config/tmux/current-theme.conf" 2>/dev/null || true
 
 # starship: re-reads its config on every prompt, so open shells follow immediately
 mkdir -p "$HOME/.cache"

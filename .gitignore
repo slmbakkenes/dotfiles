@@ -3,3 +3,4 @@
 # Per-machine theme symlinks, managed by `theme dark|light`
 kitty/.config/kitty/current-theme.conf
 btop/.config/btop/themes/current.theme
+tmux/.config/tmux/current-theme.conf

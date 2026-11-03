@@ -78,6 +78,8 @@ brew "starship"
 brew "stow"
 # Parser generator tool
 brew "tree-sitter-cli"
+# Terminal multiplexer
+brew "tmux"
 # Internet file retriever
 brew "wget"
 # Blazing fast terminal file manager written in Rust, based on async I/O
