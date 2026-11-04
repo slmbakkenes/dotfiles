@@ -1,13 +1,10 @@
--- Ctrl+hjkl across nvim splits and tmux panes when nvim runs inside tmux
--- (tmux side lives in tmux.conf; outside tmux, vim-kitty-navigator handles it)
+-- Ctrl+hjkl across nvim splits and tmux panes (tmux side lives in tmux.conf).
+-- Outside tmux the commands fall back to plain nvim split movement.
 vim.g.tmux_navigator_no_mappings = 1 -- must be set before the plugin loads
 
 return {
 	src = "https://github.com/christoomey/vim-tmux-navigator",
 	setup = function()
-		if not vim.env.TMUX then
-			return
-		end
 		local map = vim.keymap.set
 		map("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", { desc = "Go to left split" })
 		map("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", { desc = "Go to lower split" })
