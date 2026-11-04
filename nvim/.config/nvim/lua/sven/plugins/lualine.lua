@@ -14,8 +14,9 @@ local function theme()
 	local p = require("gruvbox").palette
 	local light = vim.o.background == "light"
 	local bg = light and p.light0_hard or p.dark0_hard
-	local fg = light and p.dark4 or p.light4
-	local dim = light and p.light4 or p.dark4
+	-- text colours kept at >= 4.5:1 on bg; the old dim (dark4/light4) was ~3:1
+	local fg = light and p.dark2 or p.light3
+	local dim = light and p.dark4 or p.gray
 	local pill = function(color)
 		return {
 			a = { fg = bg, bg = color, gui = "bold" },
