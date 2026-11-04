@@ -53,6 +53,6 @@ return {
 			end)
 		end, { desc = "Open image/diagram" })
 
-		require("sven.claude").setup()
+		require("sven.project").setup()
 	end,
 }

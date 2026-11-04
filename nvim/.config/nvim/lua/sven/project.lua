@@ -1,7 +1,7 @@
--- Claude Code in a terminal split (snacks.terminal), run from the git root.
--- Files it changes on disk reload by themselves, and the nvim-tree sidebar opens
--- the folders above each git-changed file. `nvim <dir>` opens that layout
--- straight away.
+-- The project layout and the file explorer. `nvim <dir>` opens the explorer on the
+-- left (with the folders above each git-changed file open) and the last file edited
+-- in the project. Files changed on disk (Claude Code works in another tmux window)
+-- reload by themselves.
 local M = {}
 
 local function root()
@@ -51,22 +51,6 @@ function M.explorer()
 	open_explorer({ focus = true })
 end
 
-function M.toggle(args)
-	local cmd = vim.list_extend({ "claude" }, args or {})
-	Snacks.terminal.toggle(cmd, {
-		cwd = root(),
-		win = {
-			position = "right",
-			width = 0.4,
-			-- on the side panes' background (sven.plugins.colorscheme)
-			wo = {
-				winhighlight = "Normal:ClaudeNormal,NormalNC:ClaudeNormal,WinBar:ClaudeWinBar,WinBarNC:ClaudeWinBar,WinSeparator:WinSeparator",
-				winbar = " %{get(b:, 'term_title', '')}", -- without snacks' "1: "
-			},
-		},
-	})
-end
-
 -- The most recent file of v:oldfiles under `dir`, if any is still there.
 local function last_file(dir)
 	for _, f in ipairs(vim.v.oldfiles) do
@@ -76,8 +60,7 @@ local function last_file(dir)
 	end
 end
 
--- `nvim <dir>`: the project layout instead of a directory listing. Explorer left, the
--- last file edited in the project in the middle, Claude Code right and focused.
+-- `nvim <dir>`: explorer left, the last file edited in the project focused.
 function M.open_project(dir)
 	vim.cmd.cd(vim.fn.fnameescape(dir))
 	local file = last_file(vim.fn.getcwd())
@@ -92,23 +75,26 @@ function M.open_project(dir)
 		end
 	end
 	open_explorer({ focus = false })
-	M.toggle()
 end
 
 function M.setup()
 	vim.o.autoread = true
 
-	-- Terminal mode fires no CursorHold, so poll as well while Claude works.
-	local group = vim.api.nvim_create_augroup("sven_claude", { clear = true })
-	vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermLeave" }, {
+	-- FocusGained comes from tmux (focus-events on) when switching back to this window.
+	local group = vim.api.nvim_create_augroup("sven_project", { clear = true })
+	vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 		group = group,
 		command = "silent! checktime",
 	})
-	vim.uv.new_timer():start(1000, 1000, vim.schedule_wrap(function()
-		if vim.fn.getcmdwintype() == "" then
-			vim.cmd("silent! checktime")
-		end
-	end))
+	-- Back in nvim: open the tree's folders for the files Claude changed meanwhile.
+	vim.api.nvim_create_autocmd("FocusGained", {
+		group = group,
+		callback = function()
+			if tree().is_visible() then
+				changed(follow)
+			end
+		end,
+	})
 
 	-- Read now, before a directory handler can rename the argument.
 	local arg = vim.fn.argc() == 1 and vim.fn.argv(0) or ""
@@ -123,14 +109,8 @@ function M.setup()
 			end),
 		})
 	end
-	local map = vim.keymap.set
-	map({ "n", "t" }, "<C-,>", M.toggle, { desc = "Toggle Claude Code" })
-	map("n", "<leader>ac", M.toggle, { desc = "Toggle Claude Code" })
-	map("n", "<leader>aC", function()
-		M.toggle({ "--continue" })
-	end, { desc = "Claude Code: continue last session" })
-	map("n", "<leader>e", M.explorer, { desc = "Toggle file explorer" })
-	map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Leave Claude Code to the left split" })
+
+	vim.keymap.set("n", "<leader>e", M.explorer, { desc = "Toggle file explorer" })
 end
 
 return M

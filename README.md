@@ -11,10 +11,11 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `nvim`     | `~/.config/nvim/` (see [its README](nvim/.config/nvim/README.md)) |
 | `kitty`    | `~/.config/kitty/`           |
 | `tmux`     | `~/.config/tmux/`            |
+| `tmuxinator` | `~/.config/tmuxinator/` (`zv.yml`: the Zenvoices workbench) |
 | `btop`     | `~/.config/btop/`            |
 | `yazi`     | `~/.config/yazi/` (Gruvbox dark/light flavors) |
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
-| `bin`      | `~/.local/bin/` (`theme`, `flash-keyboard`) |
+| `bin`      | `~/.local/bin/` (`theme`, `flash-keyboard`, `zv`) |
 | `homebrew` | `~/.Brewfile` (every brew formula, cask and cargo tool) |
 | `tridactyl` | `~/.config/tridactyl/` (vim keys in Zen; needs `:installnative`) |
 
@@ -27,7 +28,7 @@ Voyager keyboards, see [its README](qmk/README.md).
 git clone https://github.com/slmbakkenes/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 brew bundle --file=homebrew/.Brewfile
-stow zsh tmux starship nvim kitty btop yazi mise bin homebrew tridactyl
+stow zsh tmux tmuxinator starship nvim kitty btop yazi mise bin homebrew tridactyl
 mise install
 theme dark   # or: theme light
 ```
@@ -36,6 +37,24 @@ theme dark   # or: theme light
 
 Stow refuses to overwrite existing files — move any pre-existing config out
 of the way first.
+
+## Zenvoices workbench
+
+`zv up` starts (or attaches) the `zv` tmux session; `zv down` stops its services
+and kills it. Windows: `claude` (Claude Code on develop), `code` (nvim), `git`
+(lazygit + shell), `shell` and `vault` (nvim in the Obsidian vault). The app runs in a
+separate background session, `zv-run` (windows `web`, `host`, `shell`). On first start the main
+checkout is fast-forwarded when it is clean and on develop.
+
+```bash
+zv start [10805]      # (prefix S) app (web + host) in zv-run, in a worktree if given (stops one running elsewhere)
+zv show               # switch to zv-run to watch it; prefix s to go back
+zv run migrate        # one service in its own zv-run window: web, host, jobs or migrate
+zv logs host 100      # last lines of its window (also for Claude)
+zv status | zv stop [svc]   # zv stop (prefix X): stops the app and closes zv-run
+zv wt 10805           # window with nvim + shell in that worktree   (prefix W)
+zv claude 10805       # window with Claude in it; new name = claude -w (prefix A)
+```
 
 ## Claude Code
 

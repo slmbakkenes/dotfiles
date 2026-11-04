@@ -1,0 +1,16 @@
+# The running Zenvoices app, out of the way of the `zv` session: `zv start [worktree]`
+# starts it in the background (tmuxinator start zv-run dir=<checkout> --no-attach),
+# `zv show` jumps to it, `zv stop` stops it and closes the session.
+name: zv-run
+root: <%= @settings["dir"] %>
+startup_window: shell
+
+windows:
+  - web:
+      root: <%= @settings["dir"] %>/src/Zenvoices.Web.ClientApp
+      panes:
+        - npm start
+
+  - host: dotnet watch run --project src/Zenvoices.Web.Host
+
+  - shell:

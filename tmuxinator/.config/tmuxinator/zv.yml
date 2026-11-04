@@ -1,0 +1,26 @@
+# Zenvoices workbench: `zv up` (or `tmuxinator start zv`), `zv down` to stop it all.
+# The app itself runs in its own background session: `zv start [worktree]` (zv-run.yml).
+name: zv
+root: ~/Development/zenvoices/zenvoices-2.0
+
+on_project_first_start: zv pull
+on_project_stop: zv stop
+startup_window: claude
+
+windows:
+  - claude: claude
+
+  - code: nvim .
+
+  - git:
+      layout: main-horizontal
+      panes:
+        - lazygit
+        -
+
+  - shell:
+
+  - vault:
+      root: ~/Development/zenvoices/zenvoices-vault
+      panes:
+        - nvim .

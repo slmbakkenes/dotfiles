@@ -1,0 +1,232 @@
+#!/usr/bin/env bash
+# Zenvoices workbench. Two tmux sessions, both tmuxinator projects in ~/.config/tmuxinator:
+#   zv      the workbench: claude, code, git, vault (zv.yml)
+#   zv-run  the running app, in the background: web, host and a shell (zv-run.yml)
+# Made to be used by Sven and by Claude alike.
+#
+#   zv up                      start or attach the workbench
+#   zv down                    stop the app and kill the workbench
+#   zv start [worktree]        start the app (web + host) in zv-run, main checkout by default
+#   zv run <svc> [worktree]    start one service in its own zv-run window (jobs, migrate, ...)
+#   zv stop [svc]              stop one service, or the whole app and its session
+#   zv show                    switch to zv-run (prefix s to come back, or `zv stop` there)
+#   zv logs <svc> [lines]      print the last lines of a service's window (default 200)
+#   zv status                  what runs, and from which checkout
+#   zv wt <worktree>           window with nvim + a shell in a worktree
+#   zv claude <name>           window with Claude in a worktree (made with `claude -w` if new)
+#   zv pull                    fast-forward the main checkout, only when clean and on develop
+#
+# Services: web (Angular), host (Web.Host), jobs (BackgroundJobServer), migrate (Migrator).
+# A worktree is a path or a part of its name or branch, e.g. `10805`.
+set -euo pipefail
+
+SESSION=zv
+RUN=zv-run
+ROOT="$HOME/Development/zenvoices/zenvoices-2.0"
+BASE=develop
+SERVICES=(web host jobs migrate)
+
+die() { echo "zv: $*" >&2; exit 1; }
+
+cmd_of() {
+  case "$1" in
+    web) echo "npm --prefix src/Zenvoices.Web.ClientApp start" ;;
+    host) echo "dotnet watch run --project src/Zenvoices.Web.Host" ;;
+    jobs) echo "dotnet watch run --project src/Zenvoices.BackgroundJobServer" ;;
+    migrate) echo "dotnet run --project src/Zenvoices.Migrator" ;;
+    *) die "unknown service '$1' (web, host, jobs, migrate)" ;;
+  esac
+}
+
+# Processes that outlive Ctrl-C now and then, per service.
+leftover_of() {
+  case "$1" in
+    web) echo "ng serve" ;;
+    host) echo "Zenvoices.Web.Host" ;;
+    jobs) echo "Zenvoices.BackgroundJobServer" ;;
+    migrate) echo "Zenvoices.Migrator" ;;
+  esac
+}
+
+has() { tmux has-session -t "=$1" 2>/dev/null; }
+need_session() { has "$SESSION" || die "no '$SESSION' session; run 'zv up' first"; }
+
+# The checkout zv-run was started from.
+run_dir() { tmux show -t "=$RUN:" -qv @zv_dir 2>/dev/null; }
+
+# The pane of a service's window in zv-run, if there is one.
+pane_of() {
+  has "$RUN" || return 0
+  tmux list-panes -s -t "=$RUN" -F '#{window_name} #{pane_id}' | awk -v s="$1" '$1 == s { print $2; exit }'
+}
+
+busy() {
+  local c
+  c=$(tmux display -p -t "$1" '#{pane_current_command}')
+  [[ "$c" != zsh && "$c" != bash && "$c" != sh ]]
+}
+
+# A worktree path from a path or a part of its path or branch.
+resolve_dir() {
+  local q="${1:-}" hits
+  [[ -z "$q" ]] && { echo "$ROOT"; return; }
+  [[ -d "$q" ]] && { (cd "$q" && pwd); return; }
+  hits=$(git -C "$ROOT" worktree list --porcelain |
+    awk '/^worktree /{p=substr($0,10)} /^branch /{print p "\t" substr($0,8)}' |
+    grep -F -- "$q" | grep -v '/vault-src/' || true)
+  [[ -n "$hits" ]] || die "no worktree matches '$q'"
+  [[ $(wc -l <<<"$hits") -eq 1 ]] || die "'$q' matches more than one worktree:"$'\n'"$(cut -f1 <<<"$hits")"
+  cut -f1 <<<"$hits"
+}
+
+# Ctrl-C to the service, then the leftovers it sometimes leaves.
+stop_one() {
+  local svc="$1" pane pat
+  pane=$(pane_of "$svc")
+  [[ -n "$pane" ]] && busy "$pane" && tmux send-keys -t "$pane" C-c
+  pat=$(leftover_of "$svc")
+  for _ in $(seq 10); do
+    pgrep -f "$pat" >/dev/null || return 0
+    sleep 0.5
+  done
+  pkill -f "$pat" || true
+}
+
+stop_all() {
+  local s
+  for s in "${SERVICES[@]}"; do stop_one "$s"; done
+  if has "$RUN"; then
+    tmux kill-session -t "=$RUN"
+  fi
+}
+
+# One app at a time (fixed ports): a zv-run from another checkout is stopped first.
+claim_run() {
+  local dir="$1"
+  if has "$RUN" && [[ "$(run_dir)" != "$dir" ]]; then
+    echo "zv: stopping the app running from $(run_dir)"
+    stop_all
+  fi
+}
+
+case "${1:-}" in
+  up)
+    exec tmuxinator start "$SESSION" "${@:2}"
+    ;;
+
+  down)
+    exec tmuxinator stop "$SESSION"
+    ;;
+
+  start)
+    dir=$(resolve_dir "${2:-}")
+    claim_run "$dir"
+    if has "$RUN"; then
+      for svc in web host; do
+        p=$(pane_of "$svc")
+        [[ -n "$p" ]] && busy "$p" || "$0" run "$svc" "$dir" >/dev/null
+      done
+    else
+      tmuxinator start "$RUN" "dir=$dir" --no-attach >/dev/null
+      tmux set -t "=$RUN:" @zv_dir "$dir"
+    fi
+    echo "zv: app starting from $dir (zv show, zv logs web|host, zv stop)"
+    ;;
+
+  run)
+    svc="${2:?usage: zv run <svc> [worktree]}"
+    cmd=$(cmd_of "$svc")
+    dir=$(resolve_dir "${3:-}")
+    claim_run "$dir"
+    if ! has "$RUN"; then
+      tmux new-session -d -s "$RUN" -n shell -c "$dir"
+      tmux set -t "=$RUN:" @zv_dir "$dir"
+    fi
+    pane=$(pane_of "$svc")
+    if [[ -n "$pane" ]]; then
+      busy "$pane" && stop_one "$svc"
+      tmux respawn-pane -k -t "$pane" -c "$dir"
+    else
+      pane=$(tmux new-window -d -t "=$RUN:" -n "$svc" -c "$dir" -P -F '#{pane_id}')
+    fi
+    # Typed into a fresh shell, so Ctrl-C leaves a shell and `zv logs` shows only this run.
+    tmux clear-history -t "$pane"
+    tmux send-keys -t "$pane" "$cmd" Enter
+    echo "zv: $svc started from $dir (zv logs $svc)"
+    ;;
+
+  stop)
+    if [[ -n "${2:-}" ]]; then
+      cmd_of "$2" >/dev/null
+      stop_one "$2"
+    else
+      stop_all
+    fi
+    ;;
+
+  show)
+    has "$RUN" || die "the app is not running; zv start"
+    [[ -n "${TMUX:-}" ]] || exec tmux attach -t "=$RUN"
+    tmux switch-client -t "=$RUN"
+    ;;
+
+  logs)
+    svc="${2:?usage: zv logs <svc> [lines]}"
+    pane=$(pane_of "$svc")
+    [[ -n "$pane" ]] || die "'$svc' is not running (zv status)"
+    tmux capture-pane -p -J -t "$pane" -S "-${3:-200}" | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}'
+    ;;
+
+  status)
+    has "$RUN" || { echo "zv: the app is not running"; exit 0; }
+    echo "zv-run from $(run_dir)"
+    for svc in "${SERVICES[@]}"; do
+      p=$(pane_of "$svc")
+      [[ -n "$p" ]] || continue
+      if busy "$p"; then state=running; else state=stopped; fi
+      printf '  %-8s %s\n' "$svc" "$state"
+    done
+    ;;
+
+  wt)
+    dir=$(resolve_dir "${2:?usage: zv wt <worktree>}")
+    need_session
+    name="wt:$(basename "$dir")"
+    if tmux list-windows -t "=$SESSION" -F '#W' | grep -qxF "$name"; then
+      tmux select-window -t "=$SESSION:$name"
+    else
+      tmux new-window -t "=$SESSION" -n "$name" -c "$dir" "zsh -ic 'nvim .; exec zsh'"
+      tmux split-window -t "=$SESSION:$name" -v -l 25% -c "$dir"
+      tmux select-pane -t "=$SESSION:$name.1"
+    fi
+    ;;
+
+  claude)
+    q="${2:?usage: zv claude <worktree or new name>}"
+    need_session
+    if dir=$(resolve_dir "$q" 2>/dev/null); then
+      tmux new-window -t "=$SESSION" -n "cc:$(basename "$dir")" -c "$dir" "zsh -ic 'claude; exec zsh'"
+    else
+      tmux new-window -t "=$SESSION" -n "cc:$q" -c "$ROOT" "zsh -ic 'claude -w ${q@Q}; exec zsh'"
+    fi
+    ;;
+
+  pull)
+    branch=$(git -C "$ROOT" branch --show-current)
+    if [[ "$branch" != "$BASE" ]]; then
+      echo "zv: main checkout is on '$branch', not $BASE; not pulling"
+    elif [[ -n "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]]; then
+      echo "zv: main checkout has local changes; not pulling"
+    else
+      git -C "$ROOT" pull --ff-only --quiet && echo "zv: $BASE is up to date ($(git -C "$ROOT" log -1 --format=%h))"
+    fi
+    ;;
+
+  "" | -h | --help | help)
+    sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'
+    ;;
+
+  *)
+    die "unknown command '$1' (zv help)"
+    ;;
+esac

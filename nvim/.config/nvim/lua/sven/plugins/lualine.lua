@@ -1,5 +1,5 @@
--- One flat statusline on the hard background: the mode (CLAUDE in the Claude
--- Code terminal), branch, file and its git diff; filetype and position on the
+-- One flat statusline on the hard background: the mode (TERM in a terminal
+-- buffer), branch, file and its git diff; filetype and position on the
 -- right. Nothing about a terminal buffer's own name or position.
 
 local function in_terminal()
@@ -48,7 +48,7 @@ local function setup()
 				{
 					"mode",
 					fmt = function(mode)
-						return in_terminal() and "CLAUDE" or mode
+						return in_terminal() and "TERM" or mode
 					end,
 				},
 			},

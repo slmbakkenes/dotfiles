@@ -43,6 +43,8 @@ brew "imagemagick"
 brew "jq"
 # Lazier way to manage everything docker
 brew "lazydocker"
+# Terminal UI for git
+brew "lazygit"
 # Library to render SVG files using Cairo
 brew "librsvg"
 # Polyglot runtime manager (asdf rust clone)
@@ -80,6 +82,8 @@ brew "stow"
 brew "tree-sitter-cli"
 # Terminal multiplexer
 brew "tmux"
+# Predefined tmux sessions (zv.yml)
+brew "tmuxinator"
 # Internet file retriever
 brew "wget"
 # Blazing fast terminal file manager written in Rust, based on async I/O

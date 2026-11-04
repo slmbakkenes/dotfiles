@@ -1,4 +1,4 @@
--- Gruvbox, plus a flatter frame: the side panes (nvim-tree, Claude Code) sit on
+-- Gruvbox, plus a flatter frame: the side pane (nvim-tree) sits on
 -- the hard background, the editor on the normal one, and no separator lines;
 -- the panes are told apart by their background alone.
 
@@ -35,10 +35,6 @@ local function frame_highlights()
 	hl("NvimTreeSpecialFile", { fg = c.fg })
 	hl("NvimTreeOpenedFile", { fg = c.fg, bold = true })
 	hl("NvimTreeIndentMarker", { fg = c.line })
-
-	-- the Claude Code terminal (sven.claude sets these on its window)
-	hl("ClaudeNormal", { fg = c.fg, bg = c.panel })
-	hl("ClaudeWinBar", { fg = c.sub, bg = c.panel })
 end
 
 return {
