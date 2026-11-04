@@ -1,11 +1,6 @@
 # Drop CLAUDE_* vars inherited from a Claude Code session that no longer exists (e.g. kitty relaunched by Claude)
 [[ -n $CLAUDE_PID ]] && ! kill -0 $CLAUDE_PID 2>/dev/null && unset ${(M)${(k)parameters}:#CLAUDE*} AI_AGENT
 
-# SSH: drop straight into the persistent tmux session "main" (detach with C-a d)
-if [[ -n $SSH_CONNECTION && -z $TMUX && $- == *i* ]] && command -v tmux >/dev/null; then
-  exec tmux new-session -A -s main
-fi
-
 # History
 HISTFILE=$HOME/.zhistory
 SAVEHIST=10000

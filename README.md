@@ -10,7 +10,7 @@ Each top-level folder is a stow package that mirrors `$HOME`:
 | `starship` | `~/.config/starship.toml`    |
 | `nvim`     | `~/.config/nvim/` (see [its README](nvim/.config/nvim/README.md)) |
 | `kitty`    | `~/.config/kitty/`           |
-| `tmux`     | `~/.config/tmux/` (auto-attaches session `main` over SSH) |
+| `tmux`     | `~/.config/tmux/`            |
 | `btop`     | `~/.config/btop/`            |
 | `yazi`     | `~/.config/yazi/` (Gruvbox dark/light flavors) |
 | `mise`     | `~/.config/mise/` (LSP servers + formatters for nvim) |
@@ -37,21 +37,6 @@ theme dark   # or: theme light
 Stow refuses to overwrite existing files — move any pre-existing config out
 of the way first.
 
-## Arch (SSH box)
-
-Only the portable packages; tmux falls back to Gruvbox dark without `theme`.
-
-```bash
-sudo pacman -S --needed git stow zsh tmux openssh kitty-terminfo
-sudo systemctl enable --now sshd
-git clone https://github.com/slmbakkenes/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles && stow tmux        # add zsh starship nvim when wanted
-```
-
-From the Mac: `ssh-copy-id <host>`, then set `PasswordAuthentication no` in
-`/etc/ssh/sshd_config` and restart `sshd`. With the `zsh` package stowed, an SSH
-login attaches to the tmux session `main`; without it, run `tmux new -A -s main`.
-
 ## Claude Code
 
 Claude Code config (`~/.claude`) and the `sven-mods` plugin marketplace live in
@@ -75,7 +60,7 @@ brew bundle dump --global --force     # save the current state after adding some
 
 ## Theme
 
-Gruvbox everywhere (kitty, starship, btop, yazi, nvim), dark or light per machine:
+Gruvbox everywhere (kitty, tmux, starship, btop, yazi, nvim), dark or light per machine:
 
 ```bash
 theme          # print the current theme
