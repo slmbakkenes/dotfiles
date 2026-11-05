@@ -6,6 +6,11 @@ local vault = "~/Development/zenvoices/zenvoices-vault"
 return {
 	src = "https://github.com/obsidian-nvim/obsidian.nvim",
 	setup = function()
+		-- obsidian.nvim errors without a valid workspace; skip on machines without the vault
+		if vim.fn.isdirectory(vim.fn.expand(vault)) == 0 then
+			return
+		end
+
 		require("obsidian").setup({
 			legacy_commands = false,
 			workspaces = {
