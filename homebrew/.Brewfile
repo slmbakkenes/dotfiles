@@ -124,6 +124,8 @@ cask "kitty"
 cask "microsoft-teams"
 # Cloud storage client
 cask "onedrive"
+# Binary newsreader for downloading from Usenet
+cask "sabnzbd"
 # Tool that provides consistent, highly configurable symbols for apps
 cask "sf-symbols"
 cargo "dbx"
