@@ -1,4 +1,5 @@
 tap "osx-cross/arm"
+tap "zacharytgray/hyprmac"
 # Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -113,6 +114,8 @@ cask "font-iosevka-nerd-font"
 cask "font-monaspice-nerd-font"
 # Web browser
 cask "google-chrome"
+# Hyprland-style tiling window manager (Hypr key = Caps Lock)
+cask "zacharytgray/hyprmac/hyprmac"
 # GPU-based terminal emulator
 cask "kitty"
 # Meet, chat, call, and collaborate in just one place
