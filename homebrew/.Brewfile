@@ -116,6 +116,8 @@ cask "font-monaspice-nerd-font"
 cask "google-chrome"
 # Hyprland-style tiling window manager (Hypr key = Caps Lock)
 cask "zacharytgray/hyprmac/hyprmac"
+# Modern media player for macOS
+cask "iina"
 # GPU-based terminal emulator
 cask "kitty"
 # Meet, chat, call, and collaborate in just one place
